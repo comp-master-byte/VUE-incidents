@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+console.log('render')
 </script>
-
 <template>
-  <RouterView />
+  <h1>Страница инцидентов</h1>
 </template>
-
 <style></style>
