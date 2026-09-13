@@ -11,7 +11,6 @@ export type IncidentServerType = {
 };
 
 class IncidentsService {
-  public isIncidentsLoading = false;
   private INCIDENTS: IncidentServerType[] = [
     {
       id: 'INC-1001',
@@ -96,22 +95,16 @@ class IncidentsService {
   ];
 
   async fetchAllIncidents(): Promise<IncidentsDict> {
-    this.isIncidentsLoading = true;
-
     const promise = new Promise<IncidentServerType[]>((resolve) => {
       setTimeout(() => {
         resolve(this.INCIDENTS);
       }, 1000);
     });
 
-    return promise
-      .then((response) => {
-        const mappedResponse = incidentsResponseMapping(response);
-        return mappedResponse;
-      })
-      .finally(() => {
-        this.isIncidentsLoading = false;
-      });
+    return promise.then((response) => {
+      const mappedResponse = incidentsResponseMapping(response);
+      return mappedResponse;
+    });
   }
 }
 
