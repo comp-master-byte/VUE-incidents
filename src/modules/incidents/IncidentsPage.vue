@@ -1,7 +1,9 @@
-<script setup lang="ts">
-console.log('render')
+<script setup>
+import IncidentsDashboard from './components/incidents-dashboard/IncidentsDashboard.vue'
+import IncidentsHeader from './components/IncidentsHeader.vue'
 </script>
 <template>
-  <h1>Страница инцидентов</h1>
+  <IncidentsHeader />
+  <IncidentsDashboard />
 </template>
 <style></style>
