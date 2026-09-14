@@ -8,6 +8,8 @@ export type IncidentServerType = {
   priority: IncidentPriority;
   status: IncidentStatus;
   updatedAt: string;
+  assignee: string;
+  description: string;
 };
 
 class IncidentsService {
@@ -19,6 +21,9 @@ class IncidentsService {
       priority: 'critical',
       status: 'in-progress',
       updatedAt: '13.09.2026, 19:40',
+      assignee: 'Анна Смирнова',
+      description:
+        'При создании заказа API оформления отвечает 5xx. Пользователи не могут завершить покупку.',
     },
     {
       id: 'INC-1002',
@@ -27,6 +32,9 @@ class IncidentsService {
       priority: 'high',
       status: 'investigating',
       updatedAt: '13.09.2026, 18:55',
+      assignee: 'Иван Кузнецов',
+      description:
+        'Часть платежей по картам завершается по таймауту. Клиенты видят ошибку и повторяют оплату.',
     },
     {
       id: 'INC-1003',
@@ -35,6 +43,9 @@ class IncidentsService {
       priority: 'critical',
       status: 'in-progress',
       updatedAt: '13.09.2026, 17:20',
+      assignee: 'Мария Орлова',
+      description:
+        'Личный кабинет недоступен для части пользователей. Страница профиля открывается с ошибкой.',
     },
     {
       id: 'INC-1004',
@@ -43,6 +54,9 @@ class IncidentsService {
       priority: 'medium',
       status: 'monitoring',
       updatedAt: '13.09.2026, 16:05',
+      assignee: 'Пётр Волков',
+      description:
+        'Push-уведомления доставляются с задержкой до нескольких минут после события.',
     },
     {
       id: 'INC-1005',
@@ -51,6 +65,9 @@ class IncidentsService {
       priority: 'high',
       status: 'in-progress',
       updatedAt: '13.09.2026, 15:42',
+      assignee: 'Елена Новикова',
+      description:
+        'При входе через SSO пользователи получают ошибку авторизации и не могут попасть в систему.',
     },
     {
       id: 'INC-1006',
@@ -59,6 +76,9 @@ class IncidentsService {
       priority: 'medium',
       status: 'investigating',
       updatedAt: '13.09.2026, 14:18',
+      assignee: 'Иван Кузнецов',
+      description:
+        'Операторы видят старые версии полисов в выдаче, пока вручную не обновят страницу.',
     },
     {
       id: 'INC-1007',
@@ -67,6 +87,9 @@ class IncidentsService {
       priority: 'high',
       status: 'in-progress',
       updatedAt: '13.09.2026, 13:30',
+      assignee: 'Сергей Морозов',
+      description:
+        'Остатки товаров на складе не синхронизируются. В каталоге отображаются неактуальные данные.',
     },
     {
       id: 'INC-1008',
@@ -75,6 +98,9 @@ class IncidentsService {
       priority: 'low',
       status: 'open',
       updatedAt: '12.09.2026, 22:10',
+      assignee: 'Ольга Белова',
+      description:
+        'Для части промокодов итоговая сумма в корзине считается неверно.',
     },
     {
       id: 'INC-1009',
@@ -83,6 +109,9 @@ class IncidentsService {
       priority: 'medium',
       status: 'monitoring',
       updatedAt: '12.09.2026, 20:45',
+      assignee: 'Дмитрий Соколов',
+      description:
+        'Статика с CDN периодически отдаётся медленно или с ошибкой в отдельных регионах.',
     },
     {
       id: 'INC-1010',
@@ -91,6 +120,9 @@ class IncidentsService {
       priority: 'low',
       status: 'solved',
       updatedAt: '12.09.2026, 11:05',
+      assignee: 'Алексей Павлов',
+      description:
+        'Часть сервисов не отправляла метрики в систему мониторинга из-за ошибки записи.',
     },
   ];
 

@@ -16,6 +16,10 @@ function handleSelectIncident(incident: IncidentType) {
   incidentSelected.value = incident;
 }
 
+function handleResetSelectedIncident() {
+  incidentSelected.value = null;
+}
+
 onMounted(async () => {
   isIncidentsLoading.value = true;
   try {
@@ -27,8 +31,8 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <section class="incidents-dashboard">
-    <div class="incidents-table white-wrapper">
+  <section :class="{ 'incidents-dashboard__full': !incidentSelected }" class="incidents-dashboard">
+    <div class="white-wrapper">
       <header class="incidents-table__row incidents-dashboard__header">
         <p class="incidents-dashboard__header-title">Инцидент</p>
         <p class="incidents-dashboard__header-title">Сервис</p>
@@ -69,14 +73,22 @@ onMounted(async () => {
       </div>
     </div>
 
-    <IncidentsDashboardDetails v-if="incidentSelected" :incident-selected="incidentSelected" />
+    <IncidentsDashboardDetails
+      v-if="incidentSelected"
+      :incident-selected="incidentSelected"
+      :onCloseIncidentDetails="handleResetSelectedIncident"
+    />
   </section>
 </template>
 <style>
 .incidents-dashboard {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 4fr 2fr;
   column-gap: 20px;
+}
+
+.incidents-dashboard__full {
+  grid-template-columns: 1fr;
 }
 
 .incidents-table__row {

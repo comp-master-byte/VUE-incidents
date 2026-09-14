@@ -6,6 +6,8 @@ export type IncidentType = {
   priority: string;
   status: string;
   updatedAt: string;
+  assignee: string;
+  description: string;
 };
 
 export type IncidentsDict = Record<IncidentId, IncidentType>;

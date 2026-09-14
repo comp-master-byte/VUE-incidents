@@ -1,8 +1,15 @@
 :root {
-  /* BACKGROUND -PALETTE */
-
-  /* MAIN PALETEE */
+  /* MAIN PALETTE */
   --color-primary: #f1f5f9;
   --color-white: #ffffff;
   --color-white-selected: #eff6ff;
+
+  /* TEXT */
+  --color-text-primary: #1d2939;
+  --color-text-secondary: #667085;
+  --color-text-muted: #475467;
+  --color-accent: #5d5fef;
+
+  /* SURFACES */
+  --color-surface-muted: #f8f9fb;
 }
