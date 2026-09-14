@@ -37,13 +37,16 @@ onMounted(async () => {
         <p class="incidents-dashboard__header-title">Обновлен</p>
       </header>
 
+      <div class="border"></div>
+
       <p v-if="isIncidentsLoading">Загрузка...</p>
 
       <div class="incidents-table__list">
         <div
           v-for="incident in incidentsList"
           :key="incident.id"
-          class="incidents-table__row"
+          class="incidents-table__row incidents-list__item"
+          v-bind:class="{ 'incidents-list__item-selected': incident.id === incidentSelected?.id }"
           @click="handleSelectIncident(incident)"
         >
           <div>
@@ -76,19 +79,37 @@ onMounted(async () => {
   column-gap: 20px;
 }
 
-.incidents-table {
+.incidents-table__row {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 0.5fr 0.5fr 0.5fr;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.incidents-dashboard__header {
+  padding: 20px 20px 12px 20px;
 }
 
 .incidents-table__list {
   display: flex;
   flex-direction: column;
-  row-gap: 12px;
-  margin-top: 12px;
 }
 
-.incidents-table__row {
-  display: grid;
-  grid-template-columns: 1fr 0.5fr 0.5fr 0.5fr 0.5fr;
-  align-items: flex-start;
+.incidents-list__item {
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.incidents-list__item:hover {
+  background-color: var(--color-white-selected);
+}
+
+.incidents-list__item:last-child {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.incidents-list__item-selected {
+  background-color: var(--color-white-selected);
 }
 </style>
