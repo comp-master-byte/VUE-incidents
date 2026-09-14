@@ -49,7 +49,7 @@ const { incidentSelected, onCloseIncidentDetails } = defineProps<IncidentsDashbo
   </section>
 </template>
 
-<style>
+<style scoped>
 .incidents-details {
   padding: 28px;
   align-self: start;

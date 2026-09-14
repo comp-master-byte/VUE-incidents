@@ -80,7 +80,7 @@ onMounted(async () => {
     />
   </section>
 </template>
-<style>
+<style scoped>
 .incidents-dashboard {
   display: grid;
   grid-template-columns: 4fr 2fr;

@@ -1,4 +1,4 @@
-<script setup></script>
+<script setup lang="ts"></script>
 <template>
   <div class="incidents-header">
     <div class="incidents-header__preview">
@@ -21,5 +21,38 @@
 }
 .app-h3 {
   margin-bottom: 12px;
+}
+
+.app-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 14px;
+  background-color: #e8edf3;
+  color: #1d2939;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.app-button:hover {
+  background-color: #dce3ec;
+}
+
+.app-button:active {
+  background-color: #d0d9e4;
+}
+
+.app-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>
