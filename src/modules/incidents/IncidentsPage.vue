@@ -9,6 +9,6 @@ const incidentsQuery = ref('');
 <template>
   <IncidentsHeader />
   <IncidentsFilters v-model:query="incidentsQuery" />
-  <IncidentsDashboard />
+  <IncidentsDashboard v-model:query="incidentsQuery" />
 </template>
 <style></style>

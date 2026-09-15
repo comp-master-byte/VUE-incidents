@@ -4,12 +4,30 @@ import { ref, onMounted, computed } from 'vue';
 import { incidentsService } from '../../network/IncidentsService';
 import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
 
+const SEARCH_FIELDS: (keyof IncidentType)[] = ['title', 'service'];
+
+const query = defineModel('query', { default: '' });
+
 const isIncidentsLoading = ref(false);
 const incidents = ref<IncidentsDict>({});
 const incidentSelected = ref<IncidentType | null>(null);
 
 const incidentsList = computed<IncidentType[]>(() => {
   return Object.values(incidents.value);
+});
+
+const incidentsFilteredList = computed<IncidentType[]>(() => {
+  const normalizedQuery = query.value.trim().toLowerCase();
+
+  if (!normalizedQuery) {
+    return incidentsList.value;
+  }
+
+  return incidentsList.value.filter((incident) => {
+    return SEARCH_FIELDS.some((field) =>
+      String(incident[field]).toLowerCase().includes(normalizedQuery),
+    );
+  });
 });
 
 function handleSelectIncident(incident: IncidentType) {
@@ -47,7 +65,7 @@ onMounted(async () => {
 
       <div class="incidents-table__list">
         <div
-          v-for="incident in incidentsList"
+          v-for="incident in incidentsFilteredList"
           :key="incident.id"
           class="incidents-table__row incidents-list__item"
           v-bind:class="{ 'incidents-list__item-selected': incident.id === incidentSelected?.id }"

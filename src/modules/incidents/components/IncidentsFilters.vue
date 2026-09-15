@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const query = defineModel<string>('query', { default: '' });
+const query = defineModel('query', { default: '' });
 </script>
 <template>
   <section class="incidents-filter__wrapper">
