@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { IncidentsDict, IncidentType } from '@/shared/domain';
 import { ref, onMounted, computed } from 'vue';
 import { incidentsService } from '../../network/IncidentsService';
 import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
+import type { IncidentsDict, IncidentType } from '@/shared/domain';
+import { AppStub } from '@/shared/components/common';
 
 const SEARCH_FIELDS: (keyof IncidentType)[] = ['title', 'service'];
 
@@ -62,6 +63,7 @@ onMounted(async () => {
       <div class="border"></div>
 
       <p v-if="isIncidentsLoading">Загрузка...</p>
+      <AppStub v-if="incidentsFilteredList.length === 0" />
 
       <div class="incidents-table__list">
         <div

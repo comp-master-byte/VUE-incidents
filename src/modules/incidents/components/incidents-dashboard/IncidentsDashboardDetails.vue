@@ -88,7 +88,7 @@ const { incidentSelected, onCloseIncidentDetails } = defineProps<IncidentsDashbo
 .incidents-details__title {
   margin: 0 0 20px;
   color: var(--color-text-primary);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.3;
 }

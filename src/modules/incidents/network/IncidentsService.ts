@@ -1,5 +1,5 @@
 import type { IncidentPriority, IncidentsDict, IncidentStatus } from '@/shared/domain';
-import { incidentsResponseMapping } from './IncidentsApiMapping';
+import { incidentsResponseMapping } from './incidentsApiMapping';
 
 export type IncidentServerType = {
   id: string;
@@ -55,8 +55,7 @@ class IncidentsService {
       status: 'monitoring',
       updatedAt: '13.09.2026, 16:05',
       assignee: 'Пётр Волков',
-      description:
-        'Push-уведомления доставляются с задержкой до нескольких минут после события.',
+      description: 'Push-уведомления доставляются с задержкой до нескольких минут после события.',
     },
     {
       id: 'INC-1005',
@@ -99,8 +98,7 @@ class IncidentsService {
       status: 'open',
       updatedAt: '12.09.2026, 22:10',
       assignee: 'Ольга Белова',
-      description:
-        'Для части промокодов итоговая сумма в корзине считается неверно.',
+      description: 'Для части промокодов итоговая сумма в корзине считается неверно.',
     },
     {
       id: 'INC-1009',
