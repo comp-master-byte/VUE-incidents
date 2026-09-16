@@ -5,13 +5,22 @@ import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
 import type { IncidentsDict, IncidentType } from '@/shared/domain';
 import { AppStub } from '@/shared/components/common';
 import type { AppSelectOption } from '@/shared/components/ui';
+import { PRIORITIES } from '@/shared/consts';
+import { parseIncidentDate } from './helpers/parseIncidentDate.ts';
 
 type IncidentsDashboardProps = {
   incidentStatusSelected: AppSelectOption;
   incidentSortingSelected: AppSelectOption;
 };
 
-const SEARCH_FIELDS: (keyof IncidentType)[] = ['title', 'service'];
+const SEARCH_FIELDS: ['title', 'service'] = ['title', 'service'];
+
+const PRIORITY_ORDER: Record<string, number> = {
+  [PRIORITIES.critical]: 0,
+  [PRIORITIES.high]: 1,
+  [PRIORITIES.medium]: 2,
+  [PRIORITIES.low]: 3,
+};
 
 const query = defineModel('query', { default: '' });
 const { incidentSortingSelected, incidentStatusSelected } = defineProps<IncidentsDashboardProps>();
@@ -26,16 +35,38 @@ const incidentsList = computed<IncidentType[]>(() => {
 
 const incidentsFilteredList = computed<IncidentType[]>(() => {
   const normalizedQuery = query.value.trim().toLowerCase();
+  const statusFilter = incidentStatusSelected.label.trim().toLowerCase();
 
-  if (!normalizedQuery) {
-    return incidentsList.value;
+  const filteredListQuery = incidentsList.value.filter((incident) =>
+    SEARCH_FIELDS.some((field) => incident[field].toLowerCase().includes(normalizedQuery)),
+  );
+
+  if (incidentStatusSelected.id === 'all') {
+    return filteredListQuery;
   }
 
-  return incidentsList.value.filter((incident) => {
-    return SEARCH_FIELDS.some((field) =>
-      String(incident[field]).toLowerCase().includes(normalizedQuery),
-    );
-  });
+  const incidentsFilteredQueryStatus = filteredListQuery.filter(
+    (incident) => incident.status.trim().toLowerCase() === statusFilter,
+  );
+
+  return incidentsFilteredQueryStatus;
+});
+
+const incidentsFilteredSortedList = computed<IncidentType[]>(() => {
+  const result = [...incidentsFilteredList.value];
+
+  if (incidentSortingSelected.id === 'priority') {
+    result.sort((a, b) => {
+      const aPriority = PRIORITY_ORDER[a.priority] ?? Number.MAX_SAFE_INTEGER;
+      const bPriority = PRIORITY_ORDER[b.priority] ?? Number.MAX_SAFE_INTEGER;
+      return aPriority - bPriority;
+    });
+
+    return result;
+  }
+
+  result.sort((a, b) => parseIncidentDate(b.updatedAt) - parseIncidentDate(a.updatedAt));
+  return result;
 });
 
 function handleSelectIncident(incident: IncidentType) {
@@ -70,11 +101,11 @@ onMounted(async () => {
       <div class="border"></div>
 
       <p v-if="isIncidentsLoading">Загрузка...</p>
-      <AppStub v-if="incidentsFilteredList.length === 0" />
+      <AppStub v-if="incidentsFilteredSortedList.length === 0 && !isIncidentsLoading" />
 
       <div class="incidents-table__list">
         <div
-          v-for="incident in incidentsFilteredList"
+          v-for="incident in incidentsFilteredSortedList"
           :key="incident.id"
           class="incidents-table__row incidents-list__item"
           :class="{ 'incidents-list__item-selected': incident.id === incidentSelected?.id }"
