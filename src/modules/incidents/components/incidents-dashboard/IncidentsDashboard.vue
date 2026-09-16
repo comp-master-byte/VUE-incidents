@@ -4,10 +4,17 @@ import { incidentsService } from '../../network/IncidentsService';
 import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
 import type { IncidentsDict, IncidentType } from '@/shared/domain';
 import { AppStub } from '@/shared/components/common';
+import type { AppSelectOption } from '@/shared/components/ui';
+
+type IncidentsDashboardProps = {
+  incidentStatusSelected: AppSelectOption;
+  incidentSortingSelected: AppSelectOption;
+};
 
 const SEARCH_FIELDS: (keyof IncidentType)[] = ['title', 'service'];
 
 const query = defineModel('query', { default: '' });
+const { incidentSortingSelected, incidentStatusSelected } = defineProps<IncidentsDashboardProps>();
 
 const isIncidentsLoading = ref(false);
 const incidents = ref<IncidentsDict>({});

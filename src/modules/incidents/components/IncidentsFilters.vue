@@ -1,34 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { AppSelect, getOptionsListFromRecord } from '@/shared/components/ui';
+import { AppSelect } from '@/shared/components/ui';
 import type { AppSelectOption } from '@/shared/components/ui';
-import { STATUSES } from '@/shared/consts';
 
-const INCIDENTS_STATUSES = {
-  all: 'Все статусы',
-  ...STATUSES,
-};
-
-const INCIDENTS_SORTING = {
-  date: 'По обновлению',
-  priority: 'По приоритету',
+type IncidentsFiltersProps = {
+  incidentStatusSelected: AppSelectOption;
+  incidentsStatusesOptionsList: AppSelectOption[];
+  incidentSortingSelected: AppSelectOption;
+  incidentsSortingOptionsList: AppSelectOption[];
+  onIncidentsStatusSelect: (option: AppSelectOption) => void;
+  onIncidentsSortingSelect: (option: AppSelectOption) => void;
 };
 
 const query = defineModel('query', { default: '' });
-
-const incidentsStatusesOptionsList = getOptionsListFromRecord(INCIDENTS_STATUSES);
-const incidentStatusSelected = ref<AppSelectOption>(incidentsStatusesOptionsList[0]!);
-
-const incidentsSortingOptionsList = getOptionsListFromRecord(INCIDENTS_SORTING);
-const incidentSortingSelected = ref<AppSelectOption>(incidentsSortingOptionsList[0]!);
-
-function handleIncidentsStatusSelect(incidentsStatus: AppSelectOption) {
-  incidentStatusSelected.value = incidentsStatus;
-}
-
-function handleIncidentsSortingSelect(incidentsSorting: AppSelectOption) {
-  incidentSortingSelected.value = incidentsSorting;
-}
+const {
+  incidentSortingSelected,
+  incidentStatusSelected,
+  incidentsSortingOptionsList,
+  incidentsStatusesOptionsList,
+  onIncidentsStatusSelect,
+  onIncidentsSortingSelect,
+} = defineProps<IncidentsFiltersProps>();
 </script>
 <template>
   <section class="incidents-filter__wrapper">
@@ -36,7 +27,7 @@ function handleIncidentsSortingSelect(incidentsSorting: AppSelectOption) {
       label="Статус"
       :options="incidentsStatusesOptionsList"
       :selected-option="incidentStatusSelected"
-      @select-option="handleIncidentsStatusSelect"
+      @select-option="onIncidentsStatusSelect"
     />
 
     <div class="app-input-field">
@@ -54,7 +45,7 @@ function handleIncidentsSortingSelect(incidentsSorting: AppSelectOption) {
       label="Сортировка"
       :options="incidentsSortingOptionsList"
       :selected-option="incidentSortingSelected"
-      @select-option="handleIncidentsSortingSelect"
+      @select-option="onIncidentsSortingSelect"
     />
   </section>
 </template>
