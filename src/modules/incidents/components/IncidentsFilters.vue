@@ -1,8 +1,44 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import { AppSelect, getOptionsListFromRecord } from '@/shared/components/ui';
+import type { AppSelectOption } from '@/shared/components/ui';
+import { STATUSES } from '@/shared/consts';
+
+const INCIDENTS_STATUSES = {
+  all: 'Все статусы',
+  ...STATUSES,
+};
+
+const INCIDENTS_SORTING = {
+  date: 'По обновлению',
+  priority: 'По приоритету',
+};
+
 const query = defineModel('query', { default: '' });
+
+const incidentsStatusesOptionsList = getOptionsListFromRecord(INCIDENTS_STATUSES);
+const incidentStatusSelected = ref<AppSelectOption>(incidentsStatusesOptionsList[0]!);
+
+const incidentsSortingOptionsList = getOptionsListFromRecord(INCIDENTS_SORTING);
+const incidentSortingSelected = ref<AppSelectOption>(incidentsSortingOptionsList[0]!);
+
+function handleIncidentsStatusSelect(incidentsStatus: AppSelectOption) {
+  incidentStatusSelected.value = incidentsStatus;
+}
+
+function handleIncidentsSortingSelect(incidentsSorting: AppSelectOption) {
+  incidentSortingSelected.value = incidentsSorting;
+}
 </script>
 <template>
   <section class="incidents-filter__wrapper">
+    <AppSelect
+      label="Статус"
+      :options="incidentsStatusesOptionsList"
+      :selected-option="incidentStatusSelected"
+      @select-option="handleIncidentsStatusSelect"
+    />
+
     <div class="app-input-field">
       <label class="app-input-label" for="incidents-search">Поиск</label>
       <input
@@ -13,16 +49,26 @@ const query = defineModel('query', { default: '' });
         placeholder="Поиск по заголовку или сервису"
       />
     </div>
+
+    <AppSelect
+      label="Сортировка"
+      :options="incidentsSortingOptionsList"
+      :selected-option="incidentSortingSelected"
+      @select-option="handleIncidentsSortingSelect"
+    />
   </section>
 </template>
 <style scoped>
 .incidents-filter__wrapper {
+  display: flex;
+  column-gap: 8px;
   margin-bottom: 12px;
 }
 .app-input-field {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
 }
 .app-input-label {
   width: fit-content;

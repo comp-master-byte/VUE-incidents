@@ -1,20 +1,6 @@
-import type { IncidentPriority, IncidentStatus, IncidentsDict } from '@/shared/domain';
+import type { IncidentsDict } from '@/shared/domain';
 import type { IncidentServerType } from './IncidentsService';
-
-const PRIORITIES: Record<IncidentPriority, string> = {
-  critical: 'Критичный',
-  high: 'Высокий',
-  medium: 'Средний',
-  low: 'Низкий',
-};
-
-const STATUSES: Record<IncidentStatus, string> = {
-  'in-progress': 'В работе',
-  investigating: 'Расследуется',
-  monitoring: 'Мониторинг',
-  open: 'Открыт',
-  solved: 'Решён',
-};
+import { PRIORITIES, STATUSES } from '@/shared/consts';
 
 export function incidentsResponseMapping(response: IncidentServerType[]): IncidentsDict {
   const result: IncidentsDict = {};

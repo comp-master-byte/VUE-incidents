@@ -70,7 +70,7 @@ onMounted(async () => {
           v-for="incident in incidentsFilteredList"
           :key="incident.id"
           class="incidents-table__row incidents-list__item"
-          v-bind:class="{ 'incidents-list__item-selected': incident.id === incidentSelected?.id }"
+          :class="{ 'incidents-list__item-selected': incident.id === incidentSelected?.id }"
           @click="handleSelectIncident(incident)"
         >
           <div>
