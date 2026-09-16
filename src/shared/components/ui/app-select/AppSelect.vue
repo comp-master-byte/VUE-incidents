@@ -28,8 +28,29 @@ function handleSelectOption(option: AppSelectOption) {
 <template>
   <div class="app-select">
     <label v-if="label" class="app-label">{{ label }}</label>
-    <div class="app-select__button" @click="toggleSelectOptionsVisibility">
-      {{ selectedOption?.label }}
+    <div
+      class="app-select__button"
+      :class="{ 'app-select__button--open': isSelectOptionsVisible }"
+      @click="toggleSelectOptionsVisibility"
+    >
+      <span class="app-select__value">{{ selectedOption?.label }}</span>
+      <svg
+        class="app-select__chevron"
+        :class="{ 'app-select__chevron--open': isSelectOptionsVisible }"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M4 6L8 10L12 6"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
     </div>
     <div v-if="isSelectOptionsVisible" class="app-select__options">
       <p
@@ -64,6 +85,7 @@ function handleSelectOption(option: AppSelectOption) {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   width: 100%;
   height: 44px;
   padding: 0 16px;
@@ -79,12 +101,27 @@ function handleSelectOption(option: AppSelectOption) {
     box-shadow 0.15s ease;
 }
 
+.app-select__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-select__chevron {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.app-select__chevron--open {
+  transform: rotate(180deg);
+}
+
 .app-select__button:hover {
   border-color: #cbd5e1;
 }
 
-.app-select__button--open,
-.app-select:has(.app-select__options) .app-select__button {
+.app-select__button--open {
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.15);
 }
