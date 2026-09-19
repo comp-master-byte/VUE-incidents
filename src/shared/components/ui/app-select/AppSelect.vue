@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 
 export type AppSelectOption = {
   id: string;
@@ -14,6 +14,7 @@ type AppSelectProps = {
 
 const { selectedOption, label, options, onSelectOption } = defineProps<AppSelectProps>();
 
+const rootRef = ref<HTMLElement | null>(null);
 const isSelectOptionsVisible = ref(false);
 
 function toggleSelectOptionsVisibility() {
@@ -24,9 +25,28 @@ function handleSelectOption(option: AppSelectOption) {
   isSelectOptionsVisible.value = false;
   onSelectOption(option);
 }
+
+function handleDocumentPointerDown(event: PointerEvent) {
+  if (!isSelectOptionsVisible.value || !rootRef.value) {
+    return;
+  }
+
+  const target = event.target as Node | null;
+  if (target && !rootRef.value.contains(target)) {
+    isSelectOptionsVisible.value = false;
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('pointerdown', handleDocumentPointerDown);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('pointerdown', handleDocumentPointerDown);
+});
 </script>
 <template>
-  <div class="app-select">
+  <div ref="rootRef" class="app-select">
     <label v-if="label" class="app-label">{{ label }}</label>
     <div
       class="app-select__button"
