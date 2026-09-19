@@ -4,7 +4,7 @@ import { incidentsService } from '../../network/IncidentsService';
 import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
 import type { IncidentsDict, IncidentType } from '@/shared/domain';
 import { AppStub } from '@/shared/components/common';
-import type { AppSelectOption } from '@/shared/components/ui';
+import { AppLoader, type AppSelectOption } from '@/shared/components/ui';
 import { PRIORITIES } from '@/shared/consts';
 import { parseIncidentDate } from './helpers/parseIncidentDate.ts';
 
@@ -100,7 +100,7 @@ onMounted(async () => {
 
       <div class="border"></div>
 
-      <p v-if="isIncidentsLoading">Загрузка...</p>
+      <AppLoader v-if="isIncidentsLoading" />
       <AppStub v-if="incidentsFilteredSortedList.length === 0 && !isIncidentsLoading" />
 
       <div class="incidents-table__list">
