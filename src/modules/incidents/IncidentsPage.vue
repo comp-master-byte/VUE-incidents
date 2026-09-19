@@ -6,6 +6,8 @@ import IncidentsHeader from './components/IncidentsHeader.vue';
 import { STATUSES } from '@/shared/consts.ts';
 import { getOptionsListFromRecord } from '@/shared/components/ui';
 import type { AppSelectOption } from '@/shared/components/ui';
+import { incidentsService } from './network/IncidentsService.ts';
+import type { IncidentsDict } from '@/shared/domain';
 
 const INCIDENTS_STATUSES = {
   all: 'Все статусы',
@@ -18,6 +20,8 @@ const INCIDENTS_SORTING = {
 };
 
 const incidentsQuery = ref('');
+const isIncidentsLoading = ref(false);
+const incidents = ref<IncidentsDict>({});
 
 const incidentsStatusesOptionsList = getOptionsListFromRecord(INCIDENTS_STATUSES);
 const incidentStatusSelected = ref<AppSelectOption>(incidentsStatusesOptionsList[0]!);
@@ -32,9 +36,21 @@ function handleIncidentsStatusSelect(incidentsStatus: AppSelectOption) {
 function handleIncidentsSortingSelect(incidentsSorting: AppSelectOption) {
   incidentSortingSelected.value = incidentsSorting;
 }
+
+async function initIncidentsList() {
+  // Тут пользователь может бесконечно клацать по кнопке, нужно сюда подключить AbortController
+  isIncidentsLoading.value = true;
+  try {
+    const response = await incidentsService.fetchAllIncidents();
+    incidents.value = response;
+  } catch {
+  } finally {
+    isIncidentsLoading.value = false;
+  }
+}
 </script>
 <template>
-  <IncidentsHeader />
+  <IncidentsHeader :initIncidentsList="initIncidentsList" />
   <IncidentsFilters
     v-model:query="incidentsQuery"
     :incidentStatusSelected="incidentStatusSelected"
@@ -45,7 +61,10 @@ function handleIncidentsSortingSelect(incidentsSorting: AppSelectOption) {
     :onIncidentsSortingSelect="handleIncidentsSortingSelect"
   />
   <IncidentsDashboard
+    :incidents="incidents"
     v-model:query="incidentsQuery"
+    :initIncidentsList="initIncidentsList"
+    :isIncidentsLoading="isIncidentsLoading"
     :incidentStatusSelected="incidentStatusSelected"
     :incidentSortingSelected="incidentSortingSelected"
   />

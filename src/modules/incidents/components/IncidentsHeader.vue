@@ -1,4 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+type IncidentsHeaderProps = {
+  initIncidentsList: () => void;
+};
+
+const { initIncidentsList } = defineProps<IncidentsHeaderProps>();
+</script>
 <template>
   <div class="incidents-header">
     <div class="incidents-header__preview">
@@ -8,7 +14,7 @@
       </p>
       <p class="app-subtitle">защитой от устаревших ответов API.</p>
     </div>
-    <button class="app-button">Обновить</button>
+    <button class="app-button" @click="initIncidentsList">Обновить</button>
   </div>
 </template>
 <style scoped>

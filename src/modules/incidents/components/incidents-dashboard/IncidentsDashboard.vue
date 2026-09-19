@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { incidentsService } from '../../network/IncidentsService';
 import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
 import type { IncidentsDict, IncidentType } from '@/shared/domain';
 import { AppStub } from '@/shared/components/common';
@@ -9,6 +8,9 @@ import { PRIORITIES } from '@/shared/consts';
 import { parseIncidentDate } from './helpers/parseIncidentDate.ts';
 
 type IncidentsDashboardProps = {
+  incidents: IncidentsDict;
+  isIncidentsLoading: boolean;
+  initIncidentsList: () => void;
   incidentStatusSelected: AppSelectOption;
   incidentSortingSelected: AppSelectOption;
 };
@@ -23,14 +25,18 @@ const PRIORITY_ORDER: Record<string, number> = {
 };
 
 const query = defineModel('query', { default: '' });
-const { incidentSortingSelected, incidentStatusSelected } = defineProps<IncidentsDashboardProps>();
+const {
+  incidents,
+  isIncidentsLoading,
+  incidentStatusSelected,
+  incidentSortingSelected,
+  initIncidentsList,
+} = defineProps<IncidentsDashboardProps>();
 
-const isIncidentsLoading = ref(false);
-const incidents = ref<IncidentsDict>({});
 const incidentSelected = ref<IncidentType | null>(null);
 
 const incidentsList = computed<IncidentType[]>(() => {
-  return Object.values(incidents.value);
+  return Object.values(incidents);
 });
 
 const incidentsFilteredList = computed<IncidentType[]>(() => {
@@ -77,14 +83,8 @@ function handleResetSelectedIncident() {
   incidentSelected.value = null;
 }
 
-onMounted(async () => {
-  isIncidentsLoading.value = true;
-  try {
-    const response = await incidentsService.fetchAllIncidents();
-    incidents.value = response;
-  } finally {
-    isIncidentsLoading.value = false;
-  }
+onMounted(() => {
+  initIncidentsList();
 });
 </script>
 <template>
@@ -103,7 +103,10 @@ onMounted(async () => {
       <AppLoader v-if="isIncidentsLoading" />
       <AppStub v-if="incidentsFilteredSortedList.length === 0 && !isIncidentsLoading" />
 
-      <div class="incidents-table__list">
+      <div
+        class="incidents-table__list"
+        v-if="incidentsFilteredSortedList.length > 0 && !isIncidentsLoading"
+      >
         <div
           v-for="incident in incidentsFilteredSortedList"
           :key="incident.id"
