@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { IncidentsDict, IncidentType } from '@/shared/domain';
-import { PRIORITIES, STATUSES } from '@/shared/consts';
+import type { IncidentPriority, IncidentsDict, IncidentType } from '@/shared/domain';
+import { STATUSES } from '@/shared/consts';
 import { getOptionsListFromRecord, type AppSelectOption } from '@/shared/components/ui';
 import { incidentsService } from '../network/IncidentsService';
 import { parseIncidentDate } from '../components/incidents-dashboard/helpers/parseIncidentDate';
@@ -18,11 +18,11 @@ const INCIDENTS_SORTING = {
 
 const SEARCH_FIELDS: ['title', 'service'] = ['title', 'service'];
 
-const PRIORITY_ORDER: Record<string, number> = {
-  [PRIORITIES.critical]: 0,
-  [PRIORITIES.high]: 1,
-  [PRIORITIES.medium]: 2,
-  [PRIORITIES.low]: 3,
+const PRIORITY_ORDER: Record<IncidentPriority, number> = {
+  critical: 0,
+  high: 1,
+  medium: 2,
+  low: 3,
 };
 
 export const useIncidentsStore = defineStore('incidents', () => {

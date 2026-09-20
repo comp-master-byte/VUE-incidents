@@ -2,9 +2,14 @@
 import { onMounted } from 'vue';
 import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
 import { AppStub } from '@/shared/components/common';
-import { AppLoader } from '@/shared/components/ui';
+import { AppLoader, AppTag } from '@/shared/components/ui';
 import { useIncidentsStore } from '../../store/';
-import { PRIORITIES, STATUSES } from '@/shared/consts.ts';
+import {
+  PRIORITIES,
+  PRIORITY_TAG_COLORS,
+  STATUSES,
+  STATUS_TAG_COLORS,
+} from '@/shared/consts';
 
 const incidentsStore = useIncidentsStore();
 
@@ -60,10 +65,18 @@ onMounted(() => {
             <p>{{ incident.service }}</p>
           </div>
           <div>
-            <p>{{ PRIORITIES[incident.priority] }}</p>
+            <AppTag
+              :label="PRIORITIES[incident.priority]"
+              :background-color="PRIORITY_TAG_COLORS[incident.priority].backgroundColor"
+              :text-color="PRIORITY_TAG_COLORS[incident.priority].textColor"
+            />
           </div>
           <div>
-            <p>{{ STATUSES[incident.status] }}</p>
+            <AppTag
+              :label="STATUSES[incident.status]"
+              :background-color="STATUS_TAG_COLORS[incident.status].backgroundColor"
+              :text-color="STATUS_TAG_COLORS[incident.status].textColor"
+            />
           </div>
           <div>
             <p>{{ incident.updatedAt }}</p>
