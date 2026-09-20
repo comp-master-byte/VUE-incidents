@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
-import { AppStub } from '@/shared/components/common';
+import { AppEmptySearchStub } from '@/shared/components/common';
 import { AppLoader, AppTag } from '@/shared/components/ui';
 import { useIncidentsStore } from '../../store/';
-import {
-  PRIORITIES,
-  PRIORITY_TAG_COLORS,
-  STATUSES,
-  STATUS_TAG_COLORS,
-} from '@/shared/consts';
+import { PRIORITIES, PRIORITY_TAG_COLORS, STATUSES, STATUS_TAG_COLORS } from '@/shared/consts';
 
 const incidentsStore = useIncidentsStore();
 
@@ -22,7 +17,7 @@ onMounted(() => {
     :class="{ 'incidents-dashboard__full': !incidentsStore.incidentSelected }"
     class="incidents-dashboard"
   >
-    <div class="white-wrapper">
+    <div class="white-wrapper incidents-dashboard__content">
       <header class="incidents-table__row incidents-dashboard__header">
         <p class="incidents-dashboard__header-title">Инцидент</p>
         <p class="incidents-dashboard__header-title">Сервис</p>
@@ -34,7 +29,7 @@ onMounted(() => {
       <div class="border"></div>
 
       <AppLoader v-if="incidentsStore.isIncidentsLoading" />
-      <AppStub
+      <AppEmptySearchStub
         v-if="
           incidentsStore.incidentsFilteredSortedList.length === 0 &&
           !incidentsStore.isIncidentsLoading
@@ -93,6 +88,10 @@ onMounted(() => {
   display: grid;
   grid-template-columns: 4fr 2fr;
   column-gap: 20px;
+}
+
+.incidents-dashboard__content {
+  height: fit-content;
 }
 
 .incidents-dashboard__full {
