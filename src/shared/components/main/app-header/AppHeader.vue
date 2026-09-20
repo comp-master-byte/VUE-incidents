@@ -4,8 +4,8 @@ import { RouterLink } from 'vue-router';
 <template>
   <header class="app-header">
     <nav class="app-header__nav">
-      <RouterLink to="/">Дашборд инцидентов</RouterLink>
-      <RouterLink to="/analitics">Аналитика</RouterLink>
+      <RouterLink class="app-header__link" to="/">Дашборд инцидентов</RouterLink>
+      <RouterLink class="app-header__link" to="/analitics">Аналитика</RouterLink>
     </nav>
   </header>
 </template>
@@ -17,16 +17,35 @@ import { RouterLink } from 'vue-router';
   position: sticky;
   top: 0;
   z-index: 2;
+  box-shadow:
+    0 1px 0 rgba(15, 23, 42, 0.06),
+    0 4px 12px rgba(15, 23, 42, 0.06);
 }
 
 .app-header__nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  column-gap: 20px;
+  column-gap: 24px;
   height: 100%;
-  box-shadow:
-    0 1px 0 rgba(15, 23, 42, 0.06),
-    0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.app-header__link {
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.app-header__link:hover {
+  /* или color-mix(in srgb, var(--color-accent) 65%, white); */
+  color: var(--color-text-primary);
+}
+
+.app-header__link.router-link-exact-active {
+  color: var(--color-accent);
 }
 </style>
