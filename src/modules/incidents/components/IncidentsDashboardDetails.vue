@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppSelect } from '@/shared/components/ui';
-import { useIncidentsStore } from '../../store';
+import { useIncidentsStore } from '../store';
 
 const incidentsStore = useIncidentsStore();
 </script>

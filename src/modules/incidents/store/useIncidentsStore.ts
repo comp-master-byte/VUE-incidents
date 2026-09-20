@@ -9,7 +9,7 @@ import type {
 import { STATUSES } from '@/shared/consts';
 import { getOptionsListFromRecord, type AppSelectOption } from '@/shared/components/ui';
 import { incidentsService } from '../services/IncidentsService';
-import { parseIncidentDate } from '../components/incidents-dashboard/helpers/parseIncidentDate';
+import { parseIncidentDate } from '../components/helpers/parseIncidentDate';
 
 const INCIDENTS_STATUSES = {
   all: 'Все статусы',
@@ -32,13 +32,14 @@ const PRIORITY_ORDER: Record<IncidentPriority, number> = {
 
 const incidentsStatusesList = getOptionsListFromRecord(STATUSES);
 
-// Защита от race condition загрузки/обновления списка инцидентов
-let lastIncidentsRequestId = 0;
+let lastIncidentsRequestId = 0; // Защита от race condition загрузки/обновления списка инцидентов
+let incidentsFailureCounter = 0;
 
 export const useIncidentsStore = defineStore('incidents', () => {
   const incidentsQuery = ref('');
   const isIncidentsLoading = ref(false);
   const incidents = ref<IncidentsDict>({});
+  const incidentsError = ref('');
   const selectedIncidentId = ref<string | null>(null);
   const incidentStatusSelected = ref<AppSelectOption>({ id: 'all', label: 'Все статусы' });
   const incidentSortingSelected = ref<AppSelectOption>({ id: 'date', label: 'По обновлению' });
@@ -94,6 +95,13 @@ export const useIncidentsStore = defineStore('incidents', () => {
     return result;
   });
 
+  const dashboardView = computed(() => {
+    if (isIncidentsLoading.value) return 'loading';
+    if (incidentsError.value) return 'error';
+    if (incidentsFilteredSortedList.value.length === 0) return 'empty';
+    return 'list';
+  });
+
   function handleIncidentsStatusSelect(incidentsStatus: AppSelectOption) {
     incidentStatusSelected.value = incidentsStatus;
   }
@@ -114,9 +122,16 @@ export const useIncidentsStore = defineStore('incidents', () => {
     lastIncidentsRequestId += 1;
     const requestId = lastIncidentsRequestId;
 
+    incidentsFailureCounter += 1;
+
     try {
+      if (incidentsFailureCounter === 10) {
+        throw new Error('[ERROR 429]: Исчерпан лимит на кол-во запросов!');
+      }
+
       isIncidentsLoading.value = true;
       incidents.value = {};
+      incidentsError.value = '';
       selectedIncidentId.value = null;
 
       const response = await incidentsService.fetchAllIncidents();
@@ -126,7 +141,13 @@ export const useIncidentsStore = defineStore('incidents', () => {
       }
 
       incidents.value = response;
-    } catch {
+    } catch (e) {
+      if (e instanceof Error) {
+        incidentsError.value = e.message;
+        incidentsFailureCounter = 0;
+        return;
+      }
+
       if (requestId !== lastIncidentsRequestId) {
         return;
       }
@@ -165,6 +186,7 @@ export const useIncidentsStore = defineStore('incidents', () => {
 
   return {
     incidents,
+    dashboardView,
     incidentsQuery,
     incidentSelected,
     isIncidentsLoading,
@@ -175,6 +197,7 @@ export const useIncidentsStore = defineStore('incidents', () => {
     incidentsStatusesOptionsList,
     currentIncidentSelectedOption,
     incidentsStatusesList,
+    incidentsError,
     handleSelectIncident,
     handleResetSelectedIncident,
     handleIncidentsStatusSelect,
