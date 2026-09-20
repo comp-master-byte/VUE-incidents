@@ -4,6 +4,7 @@ import { STATUSES } from '@/shared/consts';
 import { useIncidentsStore } from '../../store';
 import { computed } from 'vue';
 import type { IncidentStatus } from '@/shared/domain';
+import { incidentsService } from '../../network/IncidentsService';
 
 const incidentsStore = useIncidentsStore();
 
@@ -13,7 +14,7 @@ const currentIncidentSelectedOption = computed(() =>
   incidentsStatusesList.find((option) => incidentsStore.incidentSelected?.status === option.id),
 );
 
-function handleChangeIncidentStatus(incident: AppSelectOption) {
+async function handleChangeIncidentStatus(incident: AppSelectOption) {
   const incidentSelectedId = incidentsStore.incidentSelected?.id;
 
   if (!incidentSelectedId) {
@@ -26,7 +27,17 @@ function handleChangeIncidentStatus(incident: AppSelectOption) {
     return;
   }
 
-  currentIncident.status = incident.id as IncidentStatus;
+  // Реализация стратегии uptimistic update
+  const prevIncidentStatus = currentIncident.status;
+  const nextIncidentStatus = incident.id as IncidentStatus;
+
+  currentIncident.status = nextIncidentStatus;
+
+  try {
+    await incidentsService.updateIncidentStatus(currentIncident);
+  } catch {
+    currentIncident.status = prevIncidentStatus;
+  }
 }
 </script>
 

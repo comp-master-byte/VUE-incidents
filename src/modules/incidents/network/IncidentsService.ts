@@ -1,4 +1,9 @@
-import type { IncidentPriority, IncidentsDict, IncidentStatus } from '@/shared/domain';
+import type {
+  IncidentPriority,
+  IncidentsDict,
+  IncidentStatus,
+  IncidentType,
+} from '@/shared/domain';
 import { incidentsResponseMapping } from './incidentsApiMapping';
 
 export type IncidentServerType = {
@@ -134,6 +139,24 @@ class IncidentsService {
     return promise.then((response) => {
       const mappedResponse = incidentsResponseMapping(response);
       return mappedResponse;
+    });
+  }
+
+  async updateIncidentStatus(incident: IncidentType) {
+    return new Promise<IncidentType>((resolve, reject) => {
+      setTimeout(() => {
+        /**
+         * Для реализации uptimstic update
+         * Сделаем, чтобы иногда сервер не менял состояние и возвращал ошибку например,
+         * и мы на клиенте возвращаем старое состояние
+         * */
+        const randomId = Math.random() * 100;
+        if (randomId > 70) {
+          resolve(incident);
+        } else {
+          reject();
+        }
+      }, 300);
     });
   }
 }
