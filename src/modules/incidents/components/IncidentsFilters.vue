@@ -1,39 +1,22 @@
 <script setup lang="ts">
 import { AppSelect } from '@/shared/components/ui';
-import type { AppSelectOption } from '@/shared/components/ui';
+import { useIncidentsStore } from '../store';
 
-type IncidentsFiltersProps = {
-  incidentStatusSelected: AppSelectOption;
-  incidentsStatusesOptionsList: AppSelectOption[];
-  incidentSortingSelected: AppSelectOption;
-  incidentsSortingOptionsList: AppSelectOption[];
-  onIncidentsStatusSelect: (option: AppSelectOption) => void;
-  onIncidentsSortingSelect: (option: AppSelectOption) => void;
-};
-
-const query = defineModel('query', { default: '' });
-const {
-  incidentSortingSelected,
-  incidentStatusSelected,
-  incidentsSortingOptionsList,
-  incidentsStatusesOptionsList,
-  onIncidentsStatusSelect,
-  onIncidentsSortingSelect,
-} = defineProps<IncidentsFiltersProps>();
+const incidentsStore = useIncidentsStore();
 </script>
 <template>
   <section class="incidents-filter__wrapper">
     <AppSelect
       label="Статус"
-      :options="incidentsStatusesOptionsList"
-      :selected-option="incidentStatusSelected"
-      @select-option="onIncidentsStatusSelect"
+      :options="incidentsStore.incidentsStatusesOptionsList"
+      :selected-option="incidentsStore.incidentStatusSelected"
+      @select-option="incidentsStore.handleIncidentsStatusSelect"
     />
 
     <div class="app-input-field">
       <label class="app-input-label" for="incidents-search">Поиск</label>
       <input
-        v-model="query"
+        v-model="incidentsStore.incidentsQuery"
         id="incidents-search"
         type="text"
         class="app-input"
@@ -43,9 +26,9 @@ const {
 
     <AppSelect
       label="Сортировка"
-      :options="incidentsSortingOptionsList"
-      :selected-option="incidentSortingSelected"
-      @select-option="onIncidentsSortingSelect"
+      :options="incidentsStore.incidentsSortingOptionsList"
+      :selected-option="incidentsStore.incidentSortingSelected"
+      @select-option="incidentsStore.handleIncidentsSortingSelect"
     />
   </section>
 </template>

@@ -11,6 +11,6 @@ export const STATUSES: Record<IncidentStatus, string> = {
   'in-progress': 'В работе',
   investigating: 'Расследуется',
   monitoring: 'Мониторинг',
-  open: 'Открыт',
+  new: 'Новый',
   solved: 'Решён',
 };

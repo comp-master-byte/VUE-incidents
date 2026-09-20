@@ -13,4 +13,4 @@ export type IncidentType = {
 export type IncidentsDict = Record<IncidentId, IncidentType>;
 
 export type IncidentPriority = 'critical' | 'high' | 'medium' | 'low';
-export type IncidentStatus = 'in-progress' | 'investigating' | 'monitoring' | 'open' | 'solved';
+export type IncidentStatus = 'in-progress' | 'investigating' | 'monitoring' | 'new' | 'solved';

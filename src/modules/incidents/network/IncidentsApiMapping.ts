@@ -17,7 +17,7 @@ export function incidentsResponseMapping(response: IncidentServerType[]): Incide
       title: incident.title,
       service: incident.service,
       priority: incident.priority ? PRIORITIES[incident.priority] : PRIORITIES.low,
-      status: incident.status ? STATUSES[incident.status] : STATUSES.open,
+      status: incident.status ? STATUSES[incident.status] : STATUSES.new,
       updatedAt: incident.updatedAt,
       assignee: incident.assignee,
       description: incident.description,

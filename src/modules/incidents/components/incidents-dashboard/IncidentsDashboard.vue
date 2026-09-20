@@ -1,94 +1,21 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { onMounted } from 'vue';
 import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
-import type { IncidentsDict, IncidentType } from '@/shared/domain';
 import { AppStub } from '@/shared/components/common';
-import { AppLoader, type AppSelectOption } from '@/shared/components/ui';
-import { PRIORITIES } from '@/shared/consts';
-import { parseIncidentDate } from './helpers/parseIncidentDate.ts';
+import { AppLoader } from '@/shared/components/ui';
+import { useIncidentsStore } from '../../store/';
 
-type IncidentsDashboardProps = {
-  incidents: IncidentsDict;
-  isIncidentsLoading: boolean;
-  initIncidentsList: () => void;
-  incidentStatusSelected: AppSelectOption;
-  incidentSortingSelected: AppSelectOption;
-};
-
-const SEARCH_FIELDS: ['title', 'service'] = ['title', 'service'];
-
-const PRIORITY_ORDER: Record<string, number> = {
-  [PRIORITIES.critical]: 0,
-  [PRIORITIES.high]: 1,
-  [PRIORITIES.medium]: 2,
-  [PRIORITIES.low]: 3,
-};
-
-const query = defineModel('query', { default: '' });
-const {
-  incidents,
-  isIncidentsLoading,
-  incidentStatusSelected,
-  incidentSortingSelected,
-  initIncidentsList,
-} = defineProps<IncidentsDashboardProps>();
-
-const incidentSelected = ref<IncidentType | null>(null);
-
-const incidentsList = computed<IncidentType[]>(() => {
-  return Object.values(incidents);
-});
-
-const incidentsFilteredList = computed<IncidentType[]>(() => {
-  const normalizedQuery = query.value.trim().toLowerCase();
-  const statusFilter = incidentStatusSelected.label.trim().toLowerCase();
-
-  const filteredListQuery = incidentsList.value.filter((incident) =>
-    SEARCH_FIELDS.some((field) => incident[field].toLowerCase().includes(normalizedQuery)),
-  );
-
-  if (incidentStatusSelected.id === 'all') {
-    return filteredListQuery;
-  }
-
-  const incidentsFilteredQueryStatus = filteredListQuery.filter(
-    (incident) => incident.status.trim().toLowerCase() === statusFilter,
-  );
-
-  return incidentsFilteredQueryStatus;
-});
-
-const incidentsFilteredSortedList = computed<IncidentType[]>(() => {
-  const result = [...incidentsFilteredList.value];
-
-  if (incidentSortingSelected.id === 'priority') {
-    result.sort((a, b) => {
-      const aPriority = PRIORITY_ORDER[a.priority] ?? Number.MAX_SAFE_INTEGER;
-      const bPriority = PRIORITY_ORDER[b.priority] ?? Number.MAX_SAFE_INTEGER;
-      return aPriority - bPriority;
-    });
-
-    return result;
-  }
-
-  result.sort((a, b) => parseIncidentDate(b.updatedAt) - parseIncidentDate(a.updatedAt));
-  return result;
-});
-
-function handleSelectIncident(incident: IncidentType) {
-  incidentSelected.value = incident;
-}
-
-function handleResetSelectedIncident() {
-  incidentSelected.value = null;
-}
+const incidentsStore = useIncidentsStore();
 
 onMounted(() => {
-  initIncidentsList();
+  incidentsStore.initIncidentsList();
 });
 </script>
 <template>
-  <section :class="{ 'incidents-dashboard__full': !incidentSelected }" class="incidents-dashboard">
+  <section
+    :class="{ 'incidents-dashboard__full': !incidentsStore.incidentSelected }"
+    class="incidents-dashboard"
+  >
     <div class="white-wrapper">
       <header class="incidents-table__row incidents-dashboard__header">
         <p class="incidents-dashboard__header-title">Инцидент</p>
@@ -100,19 +27,29 @@ onMounted(() => {
 
       <div class="border"></div>
 
-      <AppLoader v-if="isIncidentsLoading" />
-      <AppStub v-if="incidentsFilteredSortedList.length === 0 && !isIncidentsLoading" />
+      <AppLoader v-if="incidentsStore.isIncidentsLoading" />
+      <AppStub
+        v-if="
+          incidentsStore.incidentsFilteredSortedList.length === 0 &&
+          !incidentsStore.isIncidentsLoading
+        "
+      />
 
       <div
         class="incidents-table__list"
-        v-if="incidentsFilteredSortedList.length > 0 && !isIncidentsLoading"
+        v-if="
+          incidentsStore.incidentsFilteredSortedList.length > 0 &&
+          !incidentsStore.isIncidentsLoading
+        "
       >
         <div
-          v-for="incident in incidentsFilteredSortedList"
+          v-for="incident in incidentsStore.incidentsFilteredSortedList"
           :key="incident.id"
           class="incidents-table__row incidents-list__item"
-          :class="{ 'incidents-list__item-selected': incident.id === incidentSelected?.id }"
-          @click="handleSelectIncident(incident)"
+          :class="{
+            'incidents-list__item-selected': incident.id === incidentsStore.incidentSelected?.id,
+          }"
+          @click="incidentsStore.handleSelectIncident(incident)"
         >
           <div>
             <strong>{{ incident.title }}</strong>
@@ -134,11 +71,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <IncidentsDashboardDetails
-      v-if="incidentSelected"
-      :incident-selected="incidentSelected"
-      :onCloseIncidentDetails="handleResetSelectedIncident"
-    />
+    <IncidentsDashboardDetails v-if="incidentsStore.incidentSelected" />
   </section>
 </template>
 <style scoped>

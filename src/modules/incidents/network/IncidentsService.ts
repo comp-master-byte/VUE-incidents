@@ -95,7 +95,7 @@ class IncidentsService {
       title: 'Некорректный расчёт скидок в корзине',
       service: 'Корзина',
       priority: 'low',
-      status: 'open',
+      status: 'new',
       updatedAt: '12.09.2026, 22:10',
       assignee: 'Ольга Белова',
       description: 'Для части промокодов итоговая сумма в корзине считается неверно.',

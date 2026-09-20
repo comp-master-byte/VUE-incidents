@@ -1,51 +1,60 @@
 <script setup lang="ts">
-import type { IncidentType } from '@/shared/domain';
+import { AppSelect } from '@/shared/components/ui';
+import { STATUSES } from '@/shared/consts';
+import { useIncidentsStore } from '../../store';
 
-type IncidentsDashboardDetailsProps = {
-  incidentSelected: IncidentType;
-  onCloseIncidentDetails: () => void;
-};
-
-const { incidentSelected, onCloseIncidentDetails } = defineProps<IncidentsDashboardDetailsProps>();
+const incidentsStore = useIncidentsStore();
 </script>
 
 <template>
   <section class="incidents-details white-wrapper">
     <header class="incidents-details__header">
       <p class="incidents-details__eyebrow">Детали инцидента</p>
-      <button class="incidents-details__close" @click="onCloseIncidentDetails()">Закрыть</button>
+      <button class="incidents-details__close" @click="incidentsStore.handleResetSelectedIncident">
+        Закрыть
+      </button>
     </header>
 
-    <h2 class="incidents-details__title">{{ incidentSelected.title }}</h2>
+    <h2 class="incidents-details__title">{{ incidentsStore.incidentSelected?.title }}</h2>
 
     <div class="incidents-details__grid">
       <div class="incidents-details__field">
         <span class="incidents-details__label">ID</span>
-        <strong class="incidents-details__value">{{ incidentSelected.id }}</strong>
+        <strong class="incidents-details__value">{{ incidentsStore.incidentSelected?.id }}</strong>
       </div>
 
       <div class="incidents-details__field">
         <span class="incidents-details__label">Сервис</span>
-        <strong class="incidents-details__value">{{ incidentSelected.service }}</strong>
+        <strong class="incidents-details__value">{{
+          incidentsStore.incidentSelected?.service
+        }}</strong>
       </div>
 
       <div class="incidents-details__field">
         <span class="incidents-details__label">Приоритет</span>
-        <strong class="incidents-details__value">{{ incidentSelected.priority }}</strong>
+        <strong class="incidents-details__value">{{
+          incidentsStore.incidentSelected?.priority
+        }}</strong>
       </div>
 
       <div class="incidents-details__field">
         <span class="incidents-details__label">Ответственный</span>
-        <strong class="incidents-details__value">{{ incidentSelected.assignee }}</strong>
+        <strong class="incidents-details__value">{{
+          incidentsStore.incidentSelected?.assignee
+        }}</strong>
       </div>
 
       <div class="incidents-details__field">
         <span class="incidents-details__label">Последнее обновление</span>
-        <strong class="incidents-details__value">{{ incidentSelected.updatedAt }}</strong>
+        <strong class="incidents-details__value">{{
+          incidentsStore.incidentSelected?.updatedAt
+        }}</strong>
       </div>
     </div>
 
-    <p class="incidents-details__description">{{ incidentSelected.description }}</p>
+    <p class="incidents-details__description">{{ incidentsStore.incidentSelected?.description }}</p>
+
+    <!-- <AppSelect :selected-option="incidentSelected." :options="STATUSES" label="Статус" /> -->
   </section>
 </template>
 
