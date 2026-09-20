@@ -54,6 +54,7 @@ const incidentsStore = useIncidentsStore();
     <p class="incidents-details__description">{{ incidentsStore.incidentSelected?.description }}</p>
 
     <AppSelect
+      size="fit-content"
       label="Статус"
       :options="incidentsStore.incidentsStatusesList"
       :onSelectOption="incidentsStore.handleChangeIncidentStatus"

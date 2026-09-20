@@ -7,6 +7,7 @@ const incidentsStore = useIncidentsStore();
 <template>
   <section class="incidents-filter__wrapper">
     <AppSelect
+      size="m"
       label="Статус"
       :options="incidentsStore.incidentsStatusesOptionsList"
       :selected-option="incidentsStore.incidentStatusSelected"
@@ -25,6 +26,7 @@ const incidentsStore = useIncidentsStore();
     </div>
 
     <AppSelect
+      size="m"
       label="Сортировка"
       :options="incidentsStore.incidentsSortingOptionsList"
       :selected-option="incidentsStore.incidentSortingSelected"

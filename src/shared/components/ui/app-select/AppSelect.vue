@@ -10,9 +10,10 @@ type AppSelectProps = {
   options: AppSelectOption[];
   selectedOption: AppSelectOption;
   onSelectOption: (option: AppSelectOption) => void;
+  size?: 's' | 'm' | 'l' | 'fit-content';
 };
 
-const { selectedOption, label, options, onSelectOption } = defineProps<AppSelectProps>();
+const { selectedOption, label, options, onSelectOption, size } = defineProps<AppSelectProps>();
 
 const rootRef = ref<HTMLElement | null>(null);
 const isSelectOptionsVisible = ref(false);
@@ -46,7 +47,7 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-  <div ref="rootRef" class="app-select">
+  <div ref="rootRef" class="app-select" :class="`size-${size || 'fit-content'}`">
     <label v-if="label" class="app-label">{{ label }}</label>
     <div
       class="app-select__button"
@@ -90,7 +91,6 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: 300px;
 }
 
 .app-label {
@@ -180,5 +180,18 @@ onBeforeUnmount(() => {
 .app-select__option--selected {
   background-color: var(--color-white-selected);
   font-weight: 600;
+}
+
+.size-s {
+  width: 250px;
+}
+.size-m {
+  width: 300px;
+}
+.size-l {
+  width: 400px;
+}
+.size-fit-content {
+  width: 100%;
 }
 </style>
