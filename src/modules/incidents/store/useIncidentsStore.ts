@@ -1,9 +1,14 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { IncidentPriority, IncidentsDict, IncidentType } from '@/shared/domain';
+import type {
+  IncidentPriority,
+  IncidentsDict,
+  IncidentStatus,
+  IncidentType,
+} from '@/shared/domain';
 import { STATUSES } from '@/shared/consts';
 import { getOptionsListFromRecord, type AppSelectOption } from '@/shared/components/ui';
-import { incidentsService } from '../network/IncidentsService';
+import { incidentsService } from '../services/IncidentsService';
 import { parseIncidentDate } from '../components/incidents-dashboard/helpers/parseIncidentDate';
 
 const INCIDENTS_STATUSES = {
@@ -25,6 +30,8 @@ const PRIORITY_ORDER: Record<IncidentPriority, number> = {
   low: 3,
 };
 
+const incidentsStatusesList = getOptionsListFromRecord(STATUSES);
+
 export const useIncidentsStore = defineStore('incidents', () => {
   const incidentsQuery = ref('');
   const isIncidentsLoading = ref(false);
@@ -44,6 +51,10 @@ export const useIncidentsStore = defineStore('incidents', () => {
   const incidentsList = computed<IncidentType[]>(() => {
     return Object.values(incidents.value);
   });
+
+  const currentIncidentSelectedOption = computed(() =>
+    incidentsStatusesList.find((option) => incidentSelected.value?.status === option.id),
+  );
 
   const incidentsFilteredList = computed<IncidentType[]>(() => {
     const normalizedQuery = incidentsQuery.value.trim().toLowerCase();
@@ -108,6 +119,32 @@ export const useIncidentsStore = defineStore('incidents', () => {
     }
   }
 
+  async function handleChangeIncidentStatus(incident: AppSelectOption) {
+    const incidentSelectedId = incidentSelected.value?.id;
+
+    if (!incidentSelectedId) {
+      return;
+    }
+
+    const currentIncident = incidents.value[incidentSelectedId];
+
+    if (!currentIncident) {
+      return;
+    }
+
+    // Реализация стратегии uptimistic update
+    const prevIncidentStatus = currentIncident.status;
+    const nextIncidentStatus = incident.id as IncidentStatus;
+
+    currentIncident.status = nextIncidentStatus;
+
+    try {
+      await incidentsService.updateIncidentStatus(currentIncident);
+    } catch {
+      currentIncident.status = prevIncidentStatus;
+    }
+  }
+
   return {
     incidents,
     incidentsQuery,
@@ -118,10 +155,13 @@ export const useIncidentsStore = defineStore('incidents', () => {
     incidentsFilteredSortedList,
     incidentsSortingOptionsList,
     incidentsStatusesOptionsList,
+    currentIncidentSelectedOption,
+    incidentsStatusesList,
     handleSelectIncident,
     handleResetSelectedIncident,
     handleIncidentsStatusSelect,
     handleIncidentsSortingSelect,
     initIncidentsList,
+    handleChangeIncidentStatus,
   };
 });

@@ -1,44 +1,8 @@
 <script setup lang="ts">
-import { AppSelect, getOptionsListFromRecord, type AppSelectOption } from '@/shared/components/ui';
-import { STATUSES } from '@/shared/consts';
+import { AppSelect } from '@/shared/components/ui';
 import { useIncidentsStore } from '../../store';
-import { computed } from 'vue';
-import type { IncidentStatus } from '@/shared/domain';
-import { incidentsService } from '../../network/IncidentsService';
 
 const incidentsStore = useIncidentsStore();
-
-const incidentsStatusesList = getOptionsListFromRecord(STATUSES);
-
-const currentIncidentSelectedOption = computed(() =>
-  incidentsStatusesList.find((option) => incidentsStore.incidentSelected?.status === option.id),
-);
-
-async function handleChangeIncidentStatus(incident: AppSelectOption) {
-  const incidentSelectedId = incidentsStore.incidentSelected?.id;
-
-  if (!incidentSelectedId) {
-    return;
-  }
-
-  const currentIncident = incidentsStore.incidents[incidentSelectedId];
-
-  if (!currentIncident) {
-    return;
-  }
-
-  // Реализация стратегии uptimistic update
-  const prevIncidentStatus = currentIncident.status;
-  const nextIncidentStatus = incident.id as IncidentStatus;
-
-  currentIncident.status = nextIncidentStatus;
-
-  try {
-    await incidentsService.updateIncidentStatus(currentIncident);
-  } catch {
-    currentIncident.status = prevIncidentStatus;
-  }
-}
 </script>
 
 <template>
@@ -91,9 +55,9 @@ async function handleChangeIncidentStatus(incident: AppSelectOption) {
 
     <AppSelect
       label="Статус"
-      :options="incidentsStatusesList"
-      :onSelectOption="handleChangeIncidentStatus"
-      :selected-option="currentIncidentSelectedOption!"
+      :options="incidentsStore.incidentsStatusesList"
+      :onSelectOption="incidentsStore.handleChangeIncidentStatus"
+      :selected-option="incidentsStore.currentIncidentSelectedOption!"
     />
   </section>
 </template>
