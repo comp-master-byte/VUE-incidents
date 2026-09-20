@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router';
   <header class="app-header">
     <nav class="app-header__nav">
       <RouterLink class="app-header__link" to="/">Дашборд инцидентов</RouterLink>
-      <RouterLink class="app-header__link" to="/analitics">Аналитика</RouterLink>
+      <RouterLink class="app-header__link" to="/analytics">Аналитика</RouterLink>
     </nav>
   </header>
 </template>

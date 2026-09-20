@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { IncidentsPage } from '@/modules/incidents';
-import { AnaliticsPage } from '@/modules/analitics';
+import { AnalyticsPage } from '@/modules/analytics';
 
 const routes = [
   { path: '/', component: IncidentsPage },
-  { path: '/analitics', component: AnaliticsPage },
+  { path: '/analytics', component: AnalyticsPage },
 ];
 
 export const router = createRouter({
