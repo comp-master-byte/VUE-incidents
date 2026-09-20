@@ -32,6 +32,9 @@ const PRIORITY_ORDER: Record<IncidentPriority, number> = {
 
 const incidentsStatusesList = getOptionsListFromRecord(STATUSES);
 
+// Защита от race condition загрузки/обновления списка инцидентов
+let lastIncidentsRequestId = 0;
+
 export const useIncidentsStore = defineStore('incidents', () => {
   const incidentsQuery = ref('');
   const isIncidentsLoading = ref(false);
@@ -108,14 +111,29 @@ export const useIncidentsStore = defineStore('incidents', () => {
   }
 
   async function initIncidentsList() {
-    // Тут пользователь может бесконечно клацать по кнопке, нужно сюда подключить AbortController
-    isIncidentsLoading.value = true;
+    lastIncidentsRequestId += 1;
+    const requestId = lastIncidentsRequestId;
+
     try {
+      isIncidentsLoading.value = true;
+      incidents.value = {};
+      selectedIncidentId.value = null;
+
       const response = await incidentsService.fetchAllIncidents();
+
+      if (requestId !== lastIncidentsRequestId) {
+        return;
+      }
+
       incidents.value = response;
     } catch {
+      if (requestId !== lastIncidentsRequestId) {
+        return;
+      }
     } finally {
-      isIncidentsLoading.value = false;
+      if (requestId === lastIncidentsRequestId) {
+        isIncidentsLoading.value = false;
+      }
     }
   }
 
