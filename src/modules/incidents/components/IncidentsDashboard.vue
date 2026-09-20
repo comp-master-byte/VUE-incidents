@@ -62,4 +62,23 @@ onMounted(() => {
 .incidents-dashboard__header {
   padding: 20px 20px 12px 20px;
 }
+
+@media (max-width: 900px) {
+  .incidents-dashboard {
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+  }
+
+  .incidents-dashboard:not(.incidents-dashboard__full) .incidents-dashboard__content {
+    display: none;
+  }
+
+  .incidents-dashboard__header {
+    display: none;
+  }
+
+  .incidents-table__row {
+    padding: 0;
+  }
+}
 </style>

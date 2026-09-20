@@ -78,4 +78,18 @@ const incidentsStore = useIncidentsStore();
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.15);
 }
+
+@media (max-width: 900px) {
+  .incidents-filter__wrapper {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  .incidents-filter__wrapper :deep(.app-select),
+  .incidents-filter__wrapper :deep(.size-s),
+  .incidents-filter__wrapper :deep(.size-m),
+  .incidents-filter__wrapper :deep(.size-l) {
+    width: 100%;
+  }
+}
 </style>

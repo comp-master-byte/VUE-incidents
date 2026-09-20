@@ -16,28 +16,28 @@ const incidentsStore = useIncidentsStore();
       }"
       @click="incidentsStore.handleSelectIncident(incident)"
     >
-      <div>
+      <div class="incidents-list__main">
         <strong>{{ incident.title }}</strong>
         <p>{{ incident.id }}</p>
       </div>
-      <div>
+      <div class="incidents-list__service" data-label="Сервис">
         <p>{{ incident.service }}</p>
       </div>
-      <div>
+      <div class="incidents-list__priority" data-label="Приоритет">
         <AppTag
           :label="PRIORITIES[incident.priority]"
           :background-color="PRIORITY_TAG_COLORS[incident.priority].backgroundColor"
           :text-color="PRIORITY_TAG_COLORS[incident.priority].textColor"
         />
       </div>
-      <div>
+      <div class="incidents-list__status" data-label="Статус">
         <AppTag
           :label="STATUSES[incident.status]"
           :background-color="STATUS_TAG_COLORS[incident.status].backgroundColor"
           :text-color="STATUS_TAG_COLORS[incident.status].textColor"
         />
       </div>
-      <div>
+      <div class="incidents-list__updated" data-label="Обновлен">
         <p>{{ incident.updatedAt }}</p>
       </div>
     </div>
@@ -72,5 +72,59 @@ const incidentsStore = useIncidentsStore();
 
 .incidents-list__item-selected {
   background-color: var(--color-white-selected);
+}
+
+@media (max-width: 900px) {
+  .incidents-table__row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid var(--color-primary);
+  }
+
+  .incidents-list__item:last-child {
+    border-bottom: none;
+  }
+
+  .incidents-list__main {
+    grid-column: 1 / -1;
+  }
+
+  .incidents-list__main strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .incidents-list__main p {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+  }
+
+  .incidents-list__service,
+  .incidents-list__priority,
+  .incidents-list__status,
+  .incidents-list__updated {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .incidents-list__service::before,
+  .incidents-list__priority::before,
+  .incidents-list__status::before,
+  .incidents-list__updated::before {
+    content: attr(data-label);
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .incidents-list__updated {
+    grid-column: 1 / -1;
+  }
 }
 </style>

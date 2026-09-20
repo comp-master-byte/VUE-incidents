@@ -59,4 +59,28 @@ const incidentsStore = useIncidentsStore();
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+  .incidents-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding-top: 24px;
+    margin-bottom: 16px;
+  }
+
+  .app-h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  .app-subtitle {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .app-button {
+    width: 100%;
+  }
+}
 </style>

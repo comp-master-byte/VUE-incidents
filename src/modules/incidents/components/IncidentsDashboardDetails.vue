@@ -145,4 +145,18 @@ const incidentsStore = useIncidentsStore();
   font-size: 15px;
   line-height: 1.5;
 }
+
+@media (max-width: 900px) {
+  .incidents-details {
+    padding: 20px 16px;
+  }
+
+  .incidents-details__title {
+    font-size: 18px;
+  }
+
+  .incidents-details__grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
