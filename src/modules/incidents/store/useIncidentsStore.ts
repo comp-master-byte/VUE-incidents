@@ -29,12 +29,17 @@ export const useIncidentsStore = defineStore('incidents', () => {
   const incidentsQuery = ref('');
   const isIncidentsLoading = ref(false);
   const incidents = ref<IncidentsDict>({});
-  const incidentSelected = ref<IncidentType | null>(null);
+  const selectedIncidentId = ref<string | null>(null);
   const incidentStatusSelected = ref<AppSelectOption>({ id: 'all', label: 'Все статусы' });
   const incidentSortingSelected = ref<AppSelectOption>({ id: 'date', label: 'По обновлению' });
 
   const incidentsStatusesOptionsList = getOptionsListFromRecord(INCIDENTS_STATUSES);
   const incidentsSortingOptionsList = getOptionsListFromRecord(INCIDENTS_SORTING);
+
+  const incidentSelected = computed(() => {
+    if (!selectedIncidentId.value) return null;
+    return incidents.value[selectedIncidentId.value] || null;
+  });
 
   const incidentsList = computed<IncidentType[]>(() => {
     return Object.values(incidents.value);
@@ -42,7 +47,6 @@ export const useIncidentsStore = defineStore('incidents', () => {
 
   const incidentsFilteredList = computed<IncidentType[]>(() => {
     const normalizedQuery = incidentsQuery.value.trim().toLowerCase();
-    const statusFilter = incidentStatusSelected.value.label.trim().toLowerCase();
 
     const filteredListQuery = incidentsList.value.filter((incident) =>
       SEARCH_FIELDS.some((field) => incident[field]?.toLowerCase().includes(normalizedQuery)),
@@ -53,7 +57,7 @@ export const useIncidentsStore = defineStore('incidents', () => {
     }
 
     const incidentsFilteredQueryStatus = filteredListQuery.filter(
-      (incident) => incident.status.trim().toLowerCase() === statusFilter,
+      (incident) => incident.status === incidentStatusSelected.value.id,
     );
 
     return incidentsFilteredQueryStatus;
@@ -85,11 +89,11 @@ export const useIncidentsStore = defineStore('incidents', () => {
   }
 
   function handleSelectIncident(incident: IncidentType) {
-    incidentSelected.value = incident;
+    selectedIncidentId.value = incident.id;
   }
 
   function handleResetSelectedIncident() {
-    incidentSelected.value = null;
+    selectedIncidentId.value = null;
   }
 
   async function initIncidentsList() {

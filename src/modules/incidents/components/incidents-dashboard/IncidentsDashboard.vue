@@ -4,6 +4,7 @@ import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
 import { AppStub } from '@/shared/components/common';
 import { AppLoader } from '@/shared/components/ui';
 import { useIncidentsStore } from '../../store/';
+import { PRIORITIES, STATUSES } from '@/shared/consts.ts';
 
 const incidentsStore = useIncidentsStore();
 
@@ -59,10 +60,10 @@ onMounted(() => {
             <p>{{ incident.service }}</p>
           </div>
           <div>
-            <p>{{ incident.priority }}</p>
+            <p>{{ PRIORITIES[incident.priority] }}</p>
           </div>
           <div>
-            <p>{{ incident.status }}</p>
+            <p>{{ STATUSES[incident.status] }}</p>
           </div>
           <div>
             <p>{{ incident.updatedAt }}</p>

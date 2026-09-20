@@ -1,9 +1,33 @@
 <script setup lang="ts">
-import { AppSelect } from '@/shared/components/ui';
+import { AppSelect, getOptionsListFromRecord, type AppSelectOption } from '@/shared/components/ui';
 import { STATUSES } from '@/shared/consts';
 import { useIncidentsStore } from '../../store';
+import { computed } from 'vue';
+import type { IncidentStatus } from '@/shared/domain';
 
 const incidentsStore = useIncidentsStore();
+
+const incidentsStatusesList = getOptionsListFromRecord(STATUSES);
+
+const currentIncidentSelectedOption = computed(() =>
+  incidentsStatusesList.find((option) => incidentsStore.incidentSelected?.status === option.id),
+);
+
+function handleChangeIncidentStatus(incident: AppSelectOption) {
+  const incidentSelectedId = incidentsStore.incidentSelected?.id;
+
+  if (!incidentSelectedId) {
+    return;
+  }
+
+  const currentIncident = incidentsStore.incidents[incidentSelectedId];
+
+  if (!currentIncident) {
+    return;
+  }
+
+  currentIncident.status = incident.id as IncidentStatus;
+}
 </script>
 
 <template>
@@ -54,7 +78,12 @@ const incidentsStore = useIncidentsStore();
 
     <p class="incidents-details__description">{{ incidentsStore.incidentSelected?.description }}</p>
 
-    <!-- <AppSelect :selected-option="incidentSelected." :options="STATUSES" label="Статус" /> -->
+    <AppSelect
+      label="Статус"
+      :options="incidentsStatusesList"
+      :onSelectOption="handleChangeIncidentStatus"
+      :selected-option="currentIncidentSelectedOption!"
+    />
   </section>
 </template>
 
@@ -95,7 +124,7 @@ const incidentsStore = useIncidentsStore();
 }
 
 .incidents-details__title {
-  margin: 0 0 20px;
+  margin: 0 0 15px;
   color: var(--color-text-primary);
   font-size: 20px;
   font-weight: 700;
@@ -135,6 +164,7 @@ const incidentsStore = useIncidentsStore();
 
 .incidents-details__description {
   margin: 0;
+  margin-bottom: 15px;
   color: var(--color-text-primary);
   font-size: 15px;
   line-height: 1.5;

@@ -3,8 +3,8 @@ export type IncidentType = {
   id: string;
   title: string;
   service: string;
-  priority: string;
-  status: string;
+  status: IncidentStatus;
+  priority: IncidentPriority;
   updatedAt: string;
   assignee: string;
   description: string;
