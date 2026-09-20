@@ -21,7 +21,6 @@ const incidentsStore = useIncidentsStore();
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 12px;
-  padding-top: 50px;
 }
 .app-h3 {
   margin-bottom: 12px;

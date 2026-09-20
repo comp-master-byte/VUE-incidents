@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
-import { AppEmptySearchStub, AppErrorStub } from '@/shared/components/common';
+import { AppSearchStub, AppErrorStub } from '@/shared/components/common';
 import { AppLoader } from '@/shared/components/ui';
 import IncidentsDashboardList from './IncidentsDashboardList.vue';
 import { useIncidentsStore } from '../store/useIncidentsStore.ts';
@@ -30,7 +30,7 @@ onMounted(() => {
 
       <AppLoader v-if="incidentsStore.dashboardView === 'loading'" />
       <AppErrorStub v-else-if="incidentsStore.dashboardView === 'error'" />
-      <AppEmptySearchStub v-else-if="incidentsStore.dashboardView === 'empty'" />
+      <AppSearchStub v-else-if="incidentsStore.dashboardView === 'empty'" />
       <IncidentsDashboardList v-else />
     </div>
 
