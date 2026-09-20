@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { AppSelect } from '@/shared/components/ui';
 import { useIncidentsStore } from '../store';
+import { PRIORITIES } from '@/shared/consts';
 
 const incidentsStore = useIncidentsStore();
 </script>
@@ -32,7 +33,7 @@ const incidentsStore = useIncidentsStore();
       <div class="incidents-details__field">
         <span class="incidents-details__label">Приоритет</span>
         <strong class="incidents-details__value">{{
-          incidentsStore.incidentSelected?.priority
+          PRIORITIES[incidentsStore.incidentSelected!.priority]
         }}</strong>
       </div>
 

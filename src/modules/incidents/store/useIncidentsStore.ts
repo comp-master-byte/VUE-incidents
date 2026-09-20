@@ -68,7 +68,9 @@ export const useIncidentsStore = defineStore('incidents', () => {
     const normalizedQuery = normalizeSearchValue(incidentsQuery.value);
 
     const filteredListQuery = incidentsList.value.filter((incident) =>
-      SEARCH_FIELDS.some((field) => incident[field].includes(normalizedQuery)),
+      SEARCH_FIELDS.some((field) =>
+        normalizeSearchValue(incident[field]).includes(normalizedQuery),
+      ),
     );
 
     if (incidentStatusSelected.value.id === 'all') {
