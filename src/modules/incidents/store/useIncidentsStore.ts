@@ -35,6 +35,10 @@ const incidentsStatusesList = getOptionsListFromRecord(STATUSES);
 let lastIncidentsRequestId = 0; // Защита от race condition загрузки/обновления списка инцидентов
 let incidentsFailureCounter = 0;
 
+function normalizeSearchValue(value: string) {
+  return value.toLowerCase().trim().replace(/\s+/g, '');
+}
+
 export const useIncidentsStore = defineStore('incidents', () => {
   const incidentsQuery = ref('');
   const isIncidentsLoading = ref(false);
@@ -61,10 +65,10 @@ export const useIncidentsStore = defineStore('incidents', () => {
   );
 
   const incidentsFilteredList = computed<IncidentType[]>(() => {
-    const normalizedQuery = incidentsQuery.value.trim().toLowerCase();
+    const normalizedQuery = normalizeSearchValue(incidentsQuery.value);
 
     const filteredListQuery = incidentsList.value.filter((incident) =>
-      SEARCH_FIELDS.some((field) => incident[field]?.toLowerCase().includes(normalizedQuery)),
+      SEARCH_FIELDS.some((field) => incident[field].includes(normalizedQuery)),
     );
 
     if (incidentStatusSelected.value.id === 'all') {

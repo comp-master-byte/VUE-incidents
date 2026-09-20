@@ -54,7 +54,7 @@ class IncidentsService {
          * и мы на клиенте возвращаем старое состояние
          * */
         const randomId = Math.random() * 100;
-        if (randomId > 70) {
+        if (randomId > 10) {
           const incidentsDB: IncidentServerType[] = JSON.parse(
             localStorage.getItem(INCIDENTS_STORAGE_KEY) as string,
           );
