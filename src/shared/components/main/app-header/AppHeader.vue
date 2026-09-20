@@ -25,5 +25,8 @@ import { RouterLink } from 'vue-router';
   justify-content: center;
   column-gap: 20px;
   height: 100%;
+  box-shadow:
+    0 1px 0 rgba(15, 23, 42, 0.06),
+    0 4px 12px rgba(15, 23, 42, 0.06);
 }
 </style>

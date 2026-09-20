@@ -12,7 +12,7 @@ const incidentsStore = useIncidentsStore();
       </p>
       <p class="app-subtitle">защитой от устаревших ответов API.</p>
     </div>
-    <button class="app-button" @click="incidentsStore.initIncidentsList">Обновить</button>
+    <button class="app-button" @click="incidentsStore.updateIncidentsList">Обновить</button>
   </div>
 </template>
 <style scoped>

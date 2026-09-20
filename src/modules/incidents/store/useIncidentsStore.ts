@@ -122,7 +122,7 @@ export const useIncidentsStore = defineStore('incidents', () => {
     selectedIncidentId.value = null;
   }
 
-  async function initIncidentsList() {
+  async function updateIncidentsList() {
     lastIncidentsRequestId += 1;
     const requestId = lastIncidentsRequestId;
 
@@ -159,6 +159,29 @@ export const useIncidentsStore = defineStore('incidents', () => {
       if (requestId === lastIncidentsRequestId) {
         isIncidentsLoading.value = false;
       }
+    }
+  }
+
+  async function initIncidentsList() {
+    try {
+      if (incidentsList.value.length > 0) {
+        return;
+      }
+
+      isIncidentsLoading.value = true;
+      incidents.value = {};
+      incidentsError.value = '';
+      selectedIncidentId.value = null;
+
+      const response = await incidentsService.fetchAllIncidents();
+      incidents.value = response;
+    } catch (e) {
+      if (e instanceof Error) {
+        incidentsError.value = e.message;
+        return;
+      }
+    } finally {
+      isIncidentsLoading.value = false;
     }
   }
 
@@ -202,11 +225,12 @@ export const useIncidentsStore = defineStore('incidents', () => {
     currentIncidentSelectedOption,
     incidentsStatusesList,
     incidentsError,
+    initIncidentsList,
+    updateIncidentsList,
     handleSelectIncident,
     handleResetSelectedIncident,
     handleIncidentsStatusSelect,
     handleIncidentsSortingSelect,
-    initIncidentsList,
     handleChangeIncidentStatus,
   };
 });
