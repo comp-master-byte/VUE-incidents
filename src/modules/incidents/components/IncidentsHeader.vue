@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useIncidentsStore } from '../store';
+import { useIncidentsCreateModalStore } from '../store/useIncidentsCreateModalStore';
 
 const incidentsStore = useIncidentsStore();
+const incidentsCreateModalStore = useIncidentsCreateModalStore();
 </script>
 <template>
   <div class="incidents-header">
@@ -12,7 +14,12 @@ const incidentsStore = useIncidentsStore();
       </p>
       <p class="app-subtitle">защитой от устаревших ответов API.</p>
     </div>
-    <button class="app-button" @click="incidentsStore.updateIncidentsList">Обновить</button>
+    <div class="incidents-header__action-buttons">
+      <button class="app-button" @click="incidentsCreateModalStore.handleOpenCreateModal">
+        Завести инцидент
+      </button>
+      <button class="app-button" @click="incidentsStore.updateIncidentsList">Обновить</button>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -44,6 +51,12 @@ const incidentsStore = useIncidentsStore();
   transition:
     background-color 0.15s ease,
     opacity 0.15s ease;
+}
+
+.incidents-header__action-buttons {
+  display: flex;
+  align-content: center;
+  column-gap: 15px;
 }
 
 .app-button:hover {
