@@ -35,7 +35,6 @@ function handleCloseAppModal() {
 
 .app-modal__content {
   width: 640px;
-  height: 300px;
   background-color: var(--color-white);
   padding: 20px;
   border-radius: 12px;

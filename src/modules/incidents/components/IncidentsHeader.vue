@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { AppButton } from '@/shared/components/ui';
 import { useIncidentsStore } from '../store';
 import { useIncidentsCreateModalStore } from '../store/useIncidentsCreateModalStore';
 
@@ -15,10 +16,10 @@ const incidentsCreateModalStore = useIncidentsCreateModalStore();
       <p class="app-subtitle">защитой от устаревших ответов API.</p>
     </div>
     <div class="incidents-header__action-buttons">
-      <button class="app-button" @click="incidentsCreateModalStore.handleOpenCreateModal">
+      <AppButton @click="incidentsCreateModalStore.handleOpenCreateModal">
         Завести инцидент
-      </button>
-      <button class="app-button" @click="incidentsStore.updateIncidentsList">Обновить</button>
+      </AppButton>
+      <AppButton @click="incidentsStore.updateIncidentsList">Обновить</AppButton>
     </div>
   </div>
 </template>
