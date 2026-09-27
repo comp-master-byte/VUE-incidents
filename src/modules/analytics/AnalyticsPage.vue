@@ -3,11 +3,7 @@ import { computed, onMounted, provide } from 'vue';
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { BarChart, PieChart } from 'echarts/charts';
-import {
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-} from 'echarts/components';
+import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
 import { AppLoader, AppTag } from '@/shared/components/ui';
 import { PRIORITIES, PRIORITY_TAG_COLORS } from '@/shared/consts';
@@ -15,27 +11,15 @@ import { useIncidentsStore } from '@/modules/incidents/store';
 import { formatIncidentDate } from '@/modules/incidents/components/helpers/parseIncidentDate';
 import { useIncidentsAnalytics } from './composables/useIncidentsAnalytics';
 
-use([
-  CanvasRenderer,
-  PieChart,
-  BarChart,
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-]);
+use([CanvasRenderer, PieChart, BarChart, GridComponent, TooltipComponent, LegendComponent]);
 
 provide(THEME_KEY, 'light');
 
 const incidentsStore = useIncidentsStore();
 const incidentsList = computed(() => incidentsStore.incidentsList);
 
-const {
-  summary,
-  recentCriticalHigh,
-  statusChartOption,
-  priorityChartOption,
-  servicesChartOption,
-} = useIncidentsAnalytics(incidentsList);
+const { summary, recentCriticalHigh, statusChartOption, priorityChartOption, servicesChartOption } =
+  useIncidentsAnalytics(incidentsList);
 
 onMounted(() => {
   incidentsStore.initIncidentsList();
@@ -90,10 +74,14 @@ onMounted(() => {
 
         <article class="analytics-panel analytics-panel--wide white-wrapper">
           <h4 class="analytics-panel__title">Топ сервисов</h4>
-          <VChart class="analytics-panel__chart analytics-panel__chart--bar" :option="servicesChartOption" autoresize />
+          <VChart
+            class="analytics-panel__chart analytics-panel__chart--bar"
+            :option="servicesChartOption"
+            autoresize
+          />
         </article>
 
-        <article class="analytics-panel analytics-panel--wide white-wrapper">
+        <article class="analytics-panel analytics-panel--wide analytics-panel--list white-wrapper">
           <h4 class="analytics-panel__title">Последние critical / high</h4>
           <ul v-if="recentCriticalHigh.length" class="analytics-recent">
             <li
@@ -127,6 +115,8 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
+  min-width: 0;
 }
 
 .analytics-page__header {
@@ -147,6 +137,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
   padding: 18px 20px;
 }
 
@@ -180,12 +171,17 @@ onMounted(() => {
 }
 
 .analytics-panel {
+  min-width: 0;
   padding: 20px;
-  min-height: 340px;
+  min-height: 380px;
 }
 
 .analytics-panel--wide {
   grid-column: 1 / -1;
+}
+
+.analytics-panel--list {
+  min-height: 0;
 }
 
 .analytics-panel__title {
@@ -197,17 +193,20 @@ onMounted(() => {
 
 .analytics-panel__chart {
   width: 100%;
-  height: 260px;
+  height: 340px;
+  min-width: 0;
 }
 
 .analytics-panel__chart--bar {
-  height: 300px;
+  height: 340px;
 }
 
 .analytics-recent {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -239,6 +238,7 @@ onMounted(() => {
   font-size: 14px;
   font-weight: 600;
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .analytics-recent__meta {
@@ -252,6 +252,7 @@ onMounted(() => {
   font-size: 14px;
 }
 
+/* Планшет / узкий ноутбук */
 @media (max-width: 900px) {
   .analytics-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -264,16 +265,79 @@ onMounted(() => {
   .analytics-panel--wide {
     grid-column: auto;
   }
+
+  .analytics-panel {
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .analytics-panel__chart {
+    height: 240px;
+  }
+
+  .analytics-panel__chart--bar {
+    height: 280px;
+  }
 }
 
-@media (max-width: 560px) {
+/* Телефон */
+@media (max-width: 640px) {
+  .analytics-page {
+    gap: 12px;
+  }
+
+  .app-h3 {
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+
+  .app-subtitle {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
   .analytics-summary {
-    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .analytics-summary__card {
+    padding: 14px 16px;
+  }
+
+  .analytics-summary__label {
+    font-size: 11px;
+  }
+
+  .analytics-summary__value {
+    font-size: 24px;
+  }
+
+  .analytics-grid {
+    gap: 10px;
+  }
+
+  .analytics-panel {
+    padding: 14px;
+  }
+
+  .analytics-panel__title {
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  .analytics-panel__chart {
+    height: 220px;
+  }
+
+  .analytics-panel__chart--bar {
+    height: 260px;
   }
 
   .analytics-recent__item {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
   }
 }
 </style>

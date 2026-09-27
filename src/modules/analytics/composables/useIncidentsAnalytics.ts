@@ -119,6 +119,25 @@ export function useIncidentsAnalytics(incidents: Ref<IncidentType[]>) {
         data: statusDistribution.value,
       },
     ],
+    media: [
+      {
+        query: { maxWidth: 640 },
+        option: {
+          legend: {
+            type: 'scroll',
+            orient: 'horizontal',
+            bottom: 0,
+            textStyle: { fontSize: 11 },
+          },
+          series: [
+            {
+              radius: ['36%', '58%'],
+              center: ['50%', '42%'],
+            },
+          ],
+        },
+      },
+    ],
   }));
 
   const priorityChartOption = computed(() => ({
@@ -140,6 +159,25 @@ export function useIncidentsAnalytics(incidents: Ref<IncidentType[]>) {
         },
         label: { show: false },
         data: priorityDistribution.value,
+      },
+    ],
+    media: [
+      {
+        query: { maxWidth: 640 },
+        option: {
+          legend: {
+            type: 'scroll',
+            orient: 'horizontal',
+            bottom: 0,
+            textStyle: { fontSize: 11 },
+          },
+          series: [
+            {
+              radius: '58%',
+              center: ['50%', '42%'],
+            },
+          ],
+        },
       },
     ],
   }));
@@ -177,6 +215,27 @@ export function useIncidentsAnalytics(incidents: Ref<IncidentType[]>) {
           itemStyle: {
             color: '#5d5fef',
             borderRadius: [0, 8, 8, 0],
+          },
+        },
+      ],
+      media: [
+        {
+          query: { maxWidth: 640 },
+          option: {
+            grid: {
+              left: 4,
+              right: 12,
+              top: 4,
+              bottom: 4,
+            },
+            yAxis: {
+              axisLabel: {
+                fontSize: 11,
+                width: 80,
+                overflow: 'truncate',
+              },
+            },
+            series: [{ barWidth: 14 }],
           },
         },
       ],
