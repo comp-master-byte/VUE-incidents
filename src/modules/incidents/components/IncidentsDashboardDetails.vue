@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { AppButton, AppSelect } from '@/shared/components/ui';
-import { useIncidentsStore } from '../store';
+import { useIncidentsDashboardStore } from '../store';
 import { PRIORITIES, statusesList } from '@/shared/consts';
-import { formatIncidentDate } from './helpers/parseIncidentDate';
+import { appDates } from '@/shared/utils';
+import { useIncidentsStore } from '@/features/incidents';
 
+const incidentsDashboardStore = useIncidentsDashboardStore();
 const incidentsStore = useIncidentsStore();
 </script>
 
@@ -11,60 +13,67 @@ const incidentsStore = useIncidentsStore();
   <section class="incidents-details white-wrapper">
     <header class="incidents-details__header">
       <p class="incidents-details__eyebrow">Детали инцидента</p>
-      <button class="incidents-details__close" @click="incidentsStore.handleResetSelectedIncident">
+      <button
+        class="incidents-details__close"
+        @click="incidentsDashboardStore.handleResetSelectedIncident"
+      >
         Закрыть
       </button>
     </header>
 
-    <h2 class="incidents-details__title">{{ incidentsStore.incidentSelected?.title }}</h2>
+    <h2 class="incidents-details__title">{{ incidentsDashboardStore.incidentSelected?.title }}</h2>
 
     <div class="incidents-details__grid">
       <div class="incidents-details__field">
         <span class="incidents-details__label">ID</span>
-        <strong class="incidents-details__value">{{ incidentsStore.incidentSelected?.id }}</strong>
+        <strong class="incidents-details__value">{{
+          incidentsDashboardStore.incidentSelected?.id
+        }}</strong>
       </div>
 
       <div class="incidents-details__field">
         <span class="incidents-details__label">Сервис</span>
         <strong class="incidents-details__value">{{
-          incidentsStore.incidentSelected?.service
+          incidentsDashboardStore.incidentSelected?.service
         }}</strong>
       </div>
 
       <div class="incidents-details__field">
         <span class="incidents-details__label">Приоритет</span>
         <strong class="incidents-details__value">{{
-          PRIORITIES[incidentsStore.incidentSelected!.priority]
+          PRIORITIES[incidentsDashboardStore.incidentSelected!.priority]
         }}</strong>
       </div>
 
       <div class="incidents-details__field">
         <span class="incidents-details__label">Ответственный</span>
         <strong class="incidents-details__value">{{
-          incidentsStore.incidentSelected?.assignee
+          incidentsDashboardStore.incidentSelected?.assignee
         }}</strong>
       </div>
 
       <div class="incidents-details__field">
         <span class="incidents-details__label">Последнее обновление</span>
         <strong class="incidents-details__value">{{
-          formatIncidentDate(incidentsStore.incidentSelected!.updatedAt)
+          appDates.toDisplayDateTime(incidentsDashboardStore.incidentSelected!.updatedAt)
         }}</strong>
       </div>
     </div>
 
-    <p class="incidents-details__description">{{ incidentsStore.incidentSelected?.description }}</p>
+    <p class="incidents-details__description">
+      {{ incidentsDashboardStore.incidentSelected?.description }}
+    </p>
 
     <div class="incidents-details__actions">
       <AppSelect
         size="fit-content"
         label="Статус"
         :options="statusesList"
-        v-model="incidentsStore.currentIncidentSelectedOption!"
+        v-model="incidentsDashboardStore.currentIncidentSelectedOption!"
       />
       <AppButton
         variant="danger"
-        @click="incidentsStore.deleteIncident(incidentsStore.incidentSelected!.id)"
+        @click="incidentsStore.deleteIncident(incidentsDashboardStore.incidentSelected?.id)"
       >
         Удалить инцидент
       </AppButton>

@@ -1,7 +1,7 @@
 import { computed, type Ref } from 'vue';
 import type { IncidentPriority, IncidentStatus, IncidentType } from '@/shared/domain';
 import { PRIORITIES, STATUSES } from '@/shared/consts';
-import { parseIncidentDate } from '@/modules/incidents/components/helpers/parseIncidentDate';
+import { appDates } from '@/shared/utils';
 
 const STATUS_ORDER: IncidentStatus[] = [
   'new',
@@ -93,7 +93,7 @@ export function useIncidentsAnalytics(incidents: Ref<IncidentType[]>) {
   const recentCriticalHigh = computed(() => {
     return [...incidents.value]
       .filter((incident) => incident.priority === 'critical' || incident.priority === 'high')
-      .sort((a, b) => parseIncidentDate(b.updatedAt) - parseIncidentDate(a.updatedAt))
+      .sort((a, b) => appDates.toTimestamp(b.updatedAt) - appDates.toTimestamp(a.updatedAt))
       .slice(0, 5);
   });
 

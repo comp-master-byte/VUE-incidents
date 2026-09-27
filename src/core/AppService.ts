@@ -1,4 +1,4 @@
-import { incidentsService } from '@/modules/incidents';
+import { incidentsService } from '@/features/incidents';
 
 class AppService {
   constructor() {}

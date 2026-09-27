@@ -16,7 +16,7 @@ import type {
   IncidentStatus,
   IncidentType,
 } from '@/shared/domain';
-import { useIncidentsStore } from '../store';
+import { useIncidentsStore } from '@/features/incidents';
 
 const incidentsStore = useIncidentsStore();
 const incidentsCreateModalStore = useIncidentsCreateModalStore();

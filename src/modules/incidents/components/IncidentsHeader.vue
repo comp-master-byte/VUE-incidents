@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AppButton } from '@/shared/components/ui';
-import { useIncidentsStore } from '../store';
+import { useIncidentsStore } from '@/features/incidents';
 import { useIncidentsCreateModalStore } from '../store/useIncidentsCreateModalStore';
 
 const incidentsStore = useIncidentsStore();

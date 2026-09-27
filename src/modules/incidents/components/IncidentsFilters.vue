@@ -1,28 +1,28 @@
 <script setup lang="ts">
 import { AppInput, AppSelect } from '@/shared/components/ui';
-import { useIncidentsStore } from '../store';
+import { useIncidentsDashboardStore } from '../store';
 
-const incidentsStore = useIncidentsStore();
+const incidentsDashboardStore = useIncidentsDashboardStore();
 </script>
 <template>
   <section class="incidents-filter__wrapper">
     <AppSelect
       size="m"
       label="Статус"
-      v-model="incidentsStore.incidentStatusSelected"
-      :options="incidentsStore.incidentsStatusesOptionsList"
+      v-model="incidentsDashboardStore.incidentStatusSelected"
+      :options="incidentsDashboardStore.incidentsStatusesOptionsList"
     />
     <AppInput
       label="Поиск"
       id="incidents-search"
       placeholder="Поиск по заголовку или сервису"
-      v-model="incidentsStore.incidentsQuery"
+      v-model="incidentsDashboardStore.incidentsQuery"
     />
     <AppSelect
       size="m"
       label="Сортировка"
-      v-model="incidentsStore.incidentSortingSelected"
-      :options="incidentsStore.incidentsSortingOptionsList"
+      v-model="incidentsDashboardStore.incidentSortingSelected"
+      :options="incidentsDashboardStore.incidentsSortingOptionsList"
     />
   </section>
 </template>

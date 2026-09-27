@@ -7,8 +7,8 @@ import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/compon
 import VChart, { THEME_KEY } from 'vue-echarts';
 import { AppLoader, AppTag } from '@/shared/components/ui';
 import { PRIORITIES, PRIORITY_TAG_COLORS } from '@/shared/consts';
-import { useIncidentsStore } from '@/modules/incidents/store';
-import { formatIncidentDate } from '@/modules/incidents/components/helpers/parseIncidentDate';
+import { useIncidentsStore } from '@/features/incidents';
+import { appDates } from '@/shared/utils';
 import { useIncidentsAnalytics } from './composables/useIncidentsAnalytics';
 
 use([CanvasRenderer, PieChart, BarChart, GridComponent, TooltipComponent, LegendComponent]);
@@ -93,7 +93,7 @@ onMounted(() => {
                 <span class="analytics-recent__id">{{ incident.id }}</span>
                 <strong class="analytics-recent__title">{{ incident.title }}</strong>
                 <span class="analytics-recent__meta">
-                  {{ incident.service }} · {{ formatIncidentDate(incident.updatedAt) }}
+                  {{ incident.service }} · {{ appDates.toDisplayDateTime(incident.updatedAt) }}
                 </span>
               </div>
               <AppTag

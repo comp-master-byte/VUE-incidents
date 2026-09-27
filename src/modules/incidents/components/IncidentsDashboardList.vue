@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { PRIORITIES, PRIORITY_TAG_COLORS, STATUSES, STATUS_TAG_COLORS } from '@/shared/consts';
 import { AppTag } from '@/shared/components/ui';
-import { useIncidentsStore } from '../store';
-import { formatIncidentDate } from './helpers/parseIncidentDate';
+import { useIncidentsDashboardStore } from '../store';
+import { appDates } from '@/shared/utils';
 
-const incidentsStore = useIncidentsStore();
+const incidentsDashboardStore = useIncidentsDashboardStore();
 </script>
 <template>
   <div class="incidents-table__list">
     <div
-      v-for="incident in incidentsStore.incidentsFilteredSortedList"
+      v-for="incident in incidentsDashboardStore.incidentsFilteredSortedList"
       :key="incident.id"
       class="incidents-table__row incidents-list__item"
       :class="{
-        'incidents-list__item-selected': incident.id === incidentsStore.incidentSelected?.id,
+        'incidents-list__item-selected':
+          incident.id === incidentsDashboardStore.incidentSelected?.id,
       }"
-      @click="incidentsStore.handleSelectIncident(incident)"
+      @click="incidentsDashboardStore.handleSelectIncident(incident)"
     >
       <div class="incidents-list__main">
         <strong>{{ incident.title }}</strong>
@@ -39,7 +40,7 @@ const incidentsStore = useIncidentsStore();
         />
       </div>
       <div class="incidents-list__updated" data-label="Обновлен">
-        <p>{{ formatIncidentDate(incident.updatedAt) }}</p>
+        <p>{{ appDates.toDisplayDateTime(incident.updatedAt) }}</p>
       </div>
     </div>
   </div>

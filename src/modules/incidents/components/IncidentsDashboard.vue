@@ -4,9 +4,11 @@ import IncidentsDashboardDetails from './IncidentsDashboardDetails.vue';
 import { AppSearchStub, AppErrorStub } from '@/shared/components/common';
 import { AppLoader } from '@/shared/components/ui';
 import IncidentsDashboardList from './IncidentsDashboardList.vue';
-import { useIncidentsStore } from '../store/useIncidentsStore.ts';
+import { useIncidentsStore } from '@/features/incidents';
+import { useIncidentsDashboardStore } from '../store';
 
 const incidentsStore = useIncidentsStore();
+const incidentsDashboardStore = useIncidentsDashboardStore();
 
 onMounted(() => {
   incidentsStore.initIncidentsList();
@@ -14,7 +16,7 @@ onMounted(() => {
 </script>
 <template>
   <section
-    :class="{ 'incidents-dashboard__full': !incidentsStore.incidentSelected }"
+    :class="{ 'incidents-dashboard__full': !incidentsDashboardStore.incidentSelected }"
     class="incidents-dashboard"
   >
     <div class="white-wrapper incidents-dashboard__content">
@@ -28,13 +30,13 @@ onMounted(() => {
 
       <div class="border"></div>
 
-      <AppLoader v-if="incidentsStore.dashboardView === 'loading'" />
-      <AppErrorStub v-else-if="incidentsStore.dashboardView === 'error'" />
-      <AppSearchStub v-else-if="incidentsStore.dashboardView === 'empty'" />
+      <AppLoader v-if="incidentsDashboardStore.incidentsDashboardView === 'loading'" />
+      <AppErrorStub v-else-if="incidentsDashboardStore.incidentsDashboardView === 'error'" />
+      <AppSearchStub v-else-if="incidentsDashboardStore.incidentsDashboardView === 'empty'" />
       <IncidentsDashboardList v-else />
     </div>
 
-    <IncidentsDashboardDetails v-if="incidentsStore.incidentSelected" />
+    <IncidentsDashboardDetails v-if="incidentsDashboardStore.incidentSelected" />
   </section>
 </template>
 <style scoped>
