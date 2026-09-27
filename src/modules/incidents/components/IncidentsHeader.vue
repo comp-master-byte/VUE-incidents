@@ -78,7 +78,6 @@ const incidentsCreateModalStore = useIncidentsCreateModalStore();
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
-    padding-top: 24px;
     margin-bottom: 16px;
   }
 

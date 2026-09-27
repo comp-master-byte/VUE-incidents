@@ -22,4 +22,10 @@ onMounted(() => {
 .app-wrapper {
   padding-top: 50px;
 }
+
+@media (max-width: 768px) {
+  .app-wrapper {
+    padding-top: 30px;
+  }
+}
 </style>

@@ -2,6 +2,7 @@
 import { PRIORITIES, PRIORITY_TAG_COLORS, STATUSES, STATUS_TAG_COLORS } from '@/shared/consts';
 import { AppTag } from '@/shared/components/ui';
 import { useIncidentsStore } from '../store';
+import { formatIncidentDate } from './helpers/parseIncidentDate';
 
 const incidentsStore = useIncidentsStore();
 </script>
@@ -38,7 +39,7 @@ const incidentsStore = useIncidentsStore();
         />
       </div>
       <div class="incidents-list__updated" data-label="Обновлен">
-        <p>{{ incident.updatedAt }}</p>
+        <p>{{ formatIncidentDate(incident.updatedAt) }}</p>
       </div>
     </div>
   </div>

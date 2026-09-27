@@ -2,6 +2,7 @@
 import { AppButton, AppSelect } from '@/shared/components/ui';
 import { useIncidentsStore } from '../store';
 import { PRIORITIES, statusesList } from '@/shared/consts';
+import { formatIncidentDate } from './helpers/parseIncidentDate';
 
 const incidentsStore = useIncidentsStore();
 </script>
@@ -47,7 +48,7 @@ const incidentsStore = useIncidentsStore();
       <div class="incidents-details__field">
         <span class="incidents-details__label">Последнее обновление</span>
         <strong class="incidents-details__value">{{
-          incidentsStore.incidentSelected?.updatedAt
+          formatIncidentDate(incidentsStore.incidentSelected!.updatedAt)
         }}</strong>
       </div>
     </div>
