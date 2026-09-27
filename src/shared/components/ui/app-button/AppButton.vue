@@ -2,7 +2,7 @@
 withDefaults(
   defineProps<{
     type?: 'submit' | 'button' | 'reset';
-    variant?: 'primary' | 'danger';
+    variant?: 'primary' | 'secondary' | 'danger';
   }>(),
   {
     type: 'button',
@@ -47,6 +47,19 @@ withDefaults(
 
 .app-button--primary:active {
   background-color: #4346d4;
+}
+
+.app-button--secondary {
+  background-color: #e8edf3;
+  color: #1d2939;
+}
+
+.app-button--secondary:hover {
+  background-color: #dce3ec;
+}
+
+.app-button--secondary:active {
+  background-color: #d0d9e4;
 }
 
 .app-button--danger {

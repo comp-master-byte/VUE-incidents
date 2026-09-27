@@ -16,10 +16,12 @@ const incidentsCreateModalStore = useIncidentsCreateModalStore();
       <p class="app-subtitle">защитой от устаревших ответов API.</p>
     </div>
     <div class="incidents-header__action-buttons">
-      <AppButton variant="primary" @click="incidentsCreateModalStore.handleOpenCreateModal">
+      <AppButton variant="secondary" @click="incidentsCreateModalStore.handleOpenCreateModal">
         Завести инцидент
       </AppButton>
-      <AppButton @click="incidentsStore.updateIncidentsList">Обновить</AppButton>
+      <AppButton variant="secondary" @click="incidentsStore.updateIncidentsList">
+        Обновить
+      </AppButton>
     </div>
   </div>
 </template>
@@ -34,43 +36,10 @@ const incidentsCreateModalStore = useIncidentsCreateModalStore();
   margin-bottom: 12px;
 }
 
-.app-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 44px;
-  padding: 0 24px;
-  border: none;
-  border-radius: 14px;
-  background-color: #e8edf3;
-  color: #1d2939;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1;
-  cursor: pointer;
-  transition:
-    background-color 0.15s ease,
-    opacity 0.15s ease;
-}
-
 .incidents-header__action-buttons {
   display: flex;
   align-content: center;
   column-gap: 15px;
-}
-
-.app-button:hover {
-  background-color: #dce3ec;
-}
-
-.app-button:active {
-  background-color: #d0d9e4;
-}
-
-.app-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
@@ -91,7 +60,11 @@ const incidentsCreateModalStore = useIncidentsCreateModalStore();
     line-height: 1.45;
   }
 
-  .app-button {
+  .incidents-header__action-buttons {
+    flex-direction: column;
+  }
+
+  .incidents-header__action-buttons :deep(.app-button) {
     width: 100%;
   }
 }
