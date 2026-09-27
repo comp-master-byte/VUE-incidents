@@ -24,7 +24,7 @@ withDefaults(
   justify-content: center;
   padding: 12px 24px;
   border: none;
-  border-radius: 14px;
+  border-radius: 10px;
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;

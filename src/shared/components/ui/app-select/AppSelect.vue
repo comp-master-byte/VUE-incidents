@@ -20,8 +20,13 @@ const emit = defineEmits<{
 
 const rootRef = ref<HTMLElement | null>(null);
 const isSelectOptionsVisible = ref(false);
+const openUp = ref(false);
 
 function toggleSelectOptionsVisibility() {
+  if (!isSelectOptionsVisible.value && rootRef.value) {
+    const rect = rootRef.value.getBoundingClientRect();
+    openUp.value = window.innerHeight - rect.bottom < 220;
+  }
   isSelectOptionsVisible.value = !isSelectOptionsVisible.value;
 }
 
@@ -80,7 +85,11 @@ onBeforeUnmount(() => {
       </svg>
     </div>
 
-    <div v-if="isSelectOptionsVisible" class="app-select__options">
+    <div
+      v-if="isSelectOptionsVisible"
+      class="app-select__options"
+      :class="{ 'app-select__options--up': openUp }"
+    >
       <p
         v-for="option in options"
         :key="option.id"
@@ -164,22 +173,35 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 6px;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: 10px;
   background-color: var(--color-white);
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.app-select__options--up {
+  top: auto;
+  bottom: calc(100% + 6px);
 }
 
 .app-select__option {
   margin: 0;
   padding: 10px 12px;
-  border-radius: 8px;
   color: var(--color-text-primary);
   font-size: 14px;
   line-height: 1.3;
   cursor: pointer;
   transition: background-color 0.15s ease;
+}
+
+.app-select__option:first-child {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.app-select__option:last-child {
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .app-select__option:hover {
