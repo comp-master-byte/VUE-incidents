@@ -39,7 +39,7 @@ const incidentsCreateModalStore = useIncidentsCreateModalStore();
 .incidents-header__action-buttons {
   display: flex;
   align-content: center;
-  column-gap: 15px;
+  gap: 15px;
 }
 
 @media (max-width: 768px) {
