@@ -4,6 +4,7 @@ type AppInputProps = {
   modelValue: string;
   label: string;
   placeholder?: string;
+  error?: string;
 };
 defineProps<AppInputProps>();
 const emit = defineEmits<{ 'update:modelValue': [value: string] }>();
@@ -15,10 +16,12 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>();
       type="text"
       :id="id"
       class="app-input"
+      :class="{ 'app-input--error': error }"
       :placeholder="placeholder"
       :value="modelValue"
       @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
+    <p v-if="error" class="app-input__error">{{ error }}</p>
   </div>
 </template>
 <style scoped>
@@ -59,5 +62,21 @@ const emit = defineEmits<{ 'update:modelValue': [value: string] }>();
 .app-input:focus {
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.15);
+}
+
+.app-input__error {
+  margin: 0;
+  color: var(--color-error);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.app-input--error {
+  border-color: var(--color-error);
+}
+.app-input--error:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(240, 68, 56, 0.15);
 }
 </style>

@@ -10,10 +10,18 @@ import { useIncidentsCreateModalStore } from '../store/useIncidentsCreateModalSt
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 import { prioritiesList, servicesList, statusesList, usersList } from '@/shared/consts';
+import type {
+  IncidentCreateType,
+  IncidentPriority,
+  IncidentStatus,
+  IncidentType,
+} from '@/shared/domain';
+import { useIncidentsStore } from '../store';
 
+const incidentsStore = useIncidentsStore();
 const incidentsCreateModalStore = useIncidentsCreateModalStore();
 
-const { handleSubmit, errors } = useForm({
+const { handleSubmit, errors } = useForm<IncidentCreateType>({
   validationSchema: yup.object({
     title: yup.string().required(),
     description: yup.string().required(),
@@ -59,8 +67,30 @@ const { value: priority } = useField<AppSelectOption>('priority');
 const { value: status } = useField<AppSelectOption>('status');
 const { value: assignee } = useField<AppSelectOption>('assignee');
 
-const onSubmit = handleSubmit((values) => {
-  console.log(values);
+const onSubmit = handleSubmit(async (values) => {
+  if (!incidentsStore.incidentsList.length) {
+    return;
+  }
+
+  const incidentsList = incidentsStore.incidentsList;
+  const incidentsLastItem = incidentsList[incidentsList.length - 1];
+  const incidentsLastItemId = incidentsLastItem
+    ? Number(incidentsLastItem?.id.split('-')[1])
+    : 1000;
+
+  const newIncident: IncidentType = {
+    id: `INC-${incidentsLastItemId + 1}`,
+    title: values.title,
+    description: values.description,
+    service: values.service!.label,
+    priority: values.priority!.id as IncidentPriority,
+    status: values.status!.id as IncidentStatus,
+    assignee: values.assignee!.label,
+    updatedAt: new Date().toISOString(),
+  };
+
+  await incidentsStore.createNewIncident(newIncident);
+  incidentsCreateModalStore.handleCloseCreateModal();
 });
 </script>
 <template>
@@ -72,18 +102,29 @@ const onSubmit = handleSubmit((values) => {
         id="incident-name"
         placeholder="Название инцидента..."
         v-model="title"
+        :error="errors.title"
       />
       <AppInput
         label="Описание"
         id="incident-description"
         placeholder="Описание инцидента..."
         v-model="description"
+        :error="errors.description"
       />
-      <AppSelect label="Сервис" v-model="service" :options="servicesList" />
-      <AppSelect label="Приоритет" v-model="priority" :options="prioritiesList" />
-      <AppSelect label="Статус" v-model="status" :options="statusesList" />
-      <AppSelect label="Ответственный" v-model="assignee" :options="usersList" />
-
+      <AppSelect label="Сервис" v-model="service" :options="servicesList" :error="errors.service" />
+      <AppSelect
+        label="Приоритет"
+        v-model="priority"
+        :options="prioritiesList"
+        :error="errors.priority"
+      />
+      <AppSelect label="Статус" v-model="status" :options="statusesList" :error="errors.status" />
+      <AppSelect
+        label="Ответственный"
+        v-model="assignee"
+        :options="usersList"
+        :error="errors.assignee"
+      />
       <AppButton type="submit">Создать</AppButton>
     </form>
   </AppModal>

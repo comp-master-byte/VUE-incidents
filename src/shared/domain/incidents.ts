@@ -1,3 +1,5 @@
+import type { AppSelectOption } from '../components/ui';
+
 export type IncidentId = string;
 export type IncidentType = {
   id: string;
@@ -8,6 +10,16 @@ export type IncidentType = {
   updatedAt: string;
   assignee: string;
   description: string;
+};
+export type IncidentCreateType = {
+  id: string;
+  title: string;
+  updatedAt: string;
+  description: string;
+  status: AppSelectOption | null;
+  service: AppSelectOption | null;
+  priority: AppSelectOption | null;
+  assignee: AppSelectOption | null;
 };
 
 export type IncidentsDict = Record<IncidentId, IncidentType>;

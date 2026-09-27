@@ -8,8 +8,13 @@ export const useIncidentsCreateModalStore = defineStore('incidents-create-modal'
     createModalValue.value = true;
   }
 
+  function handleCloseCreateModal() {
+    createModalValue.value = false;
+  }
+
   return {
     createModalValue,
     handleOpenCreateModal,
+    handleCloseCreateModal,
   };
 });

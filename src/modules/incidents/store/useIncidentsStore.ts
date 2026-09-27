@@ -58,9 +58,12 @@ export const useIncidentsStore = defineStore('incidents', () => {
     return Object.values(incidents.value);
   });
 
-  const currentIncidentSelectedOption = computed(() =>
-    statusesList.find((option) => incidentSelected.value?.status === option.id),
-  );
+  const currentIncidentSelectedOption = computed({
+    get: () => statusesList.find((status) => incidentSelected.value?.status === status.id),
+    set: (option: AppSelectOption) => {
+      handleChangeIncidentStatus(option);
+    },
+  });
 
   const incidentsFilteredList = computed<IncidentType[]>(() => {
     const normalizedQuery = normalizeSearchValue(incidentsQuery.value);
@@ -211,8 +214,16 @@ export const useIncidentsStore = defineStore('incidents', () => {
     }
   }
 
+  async function createNewIncident(incident: IncidentType) {
+    try {
+      await incidentsService.createIncidentAsync(incident);
+      incidents.value[incident.id] = incident;
+    } catch {}
+  }
+
   return {
     incidents,
+    incidentsList,
     dashboardView,
     incidentsQuery,
     incidentSelected,
@@ -224,6 +235,7 @@ export const useIncidentsStore = defineStore('incidents', () => {
     incidentsStatusesOptionsList,
     currentIncidentSelectedOption,
     incidentsError,
+    createNewIncident,
     initIncidentsList,
     updateIncidentsList,
     handleSelectIncident,

@@ -72,6 +72,18 @@ class IncidentsService {
       }, 300);
     });
   }
+
+  async createIncidentAsync(incident: IncidentType) {
+    return new Promise<IncidentType>((resolve, reject) => {
+      const incidentsDB: IncidentServerType[] = JSON.parse(
+        localStorage.getItem(INCIDENTS_STORAGE_KEY) as string,
+      );
+
+      incidentsDB.push(incident);
+      localStorage.setItem(INCIDENTS_STORAGE_KEY, JSON.stringify(incidentsDB));
+      return resolve(incident);
+    });
+  }
 }
 
 export const incidentsService = new IncidentsService();

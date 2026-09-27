@@ -10,6 +10,7 @@ type AppSelectProps = {
   options: AppSelectOption[];
   size?: 's' | 'm' | 'l' | 'fit-content';
   modelValue: AppSelectOption | null;
+  error?: string;
 };
 
 defineProps<AppSelectProps>();
@@ -53,7 +54,10 @@ onBeforeUnmount(() => {
     <label v-if="label" class="app-label">{{ label }}</label>
     <div
       class="app-select__button"
-      :class="{ 'app-select__button--open': isSelectOptionsVisible }"
+      :class="{
+        'app-select__button--open': isSelectOptionsVisible,
+        'app-select__button--error': error,
+      }"
       @click="toggleSelectOptionsVisibility"
     >
       <span class="app-select__value">{{ modelValue?.label || 'Выберите значение' }}</span>
@@ -75,6 +79,7 @@ onBeforeUnmount(() => {
         />
       </svg>
     </div>
+
     <div v-if="isSelectOptionsVisible" class="app-select__options">
       <p
         v-for="option in options"
@@ -85,6 +90,8 @@ onBeforeUnmount(() => {
         {{ option.label }}
       </p>
     </div>
+
+    <p v-if="error" class="app-select__error">{{ error }}</p>
   </div>
 </template>
 <style scoped>
@@ -195,5 +202,22 @@ onBeforeUnmount(() => {
 }
 .size-fit-content {
   width: 100%;
+}
+
+.app-select__error {
+  margin: 0;
+  color: var(--color-error);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.app-select__button--error {
+  border-color: var(--color-error);
+}
+
+.app-select__button--error.app-select__button--open {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(240, 68, 56, 0.15);
 }
 </style>
