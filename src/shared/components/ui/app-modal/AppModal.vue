@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { watch } from 'vue';
+
 type AppModalProps = {
   modelValue: boolean;
 };
@@ -12,6 +14,13 @@ const emit = defineEmits<{
 function handleCloseAppModal() {
   emit('update:modelValue', false);
 }
+
+watch(
+  () => modelValue,
+  (isModelOpen) => {
+    document.body.style.overflow = isModelOpen ? 'hidden' : '';
+  },
+);
 </script>
 <template>
   <Teleport to="body">
