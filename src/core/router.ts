@@ -1,10 +1,10 @@
+import { IncidentsAnalyticsPage } from '@/modules/incidents-analytics';
+import { IncidentsDashboardPage } from '@/modules/incidents-dashboard';
 import { createRouter, createWebHistory } from 'vue-router';
-import { IncidentsPage } from '@/modules/incidents';
-import { AnalyticsPage } from '@/modules/analytics';
 
 const routes = [
-  { path: '/', component: IncidentsPage },
-  { path: '/analytics', component: AnalyticsPage },
+  { path: '/', component: IncidentsDashboardPage },
+  { path: '/analytics', component: IncidentsAnalyticsPage },
 ];
 
 export const router = createRouter({

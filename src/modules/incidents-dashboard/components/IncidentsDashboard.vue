@@ -5,7 +5,7 @@ import { AppSearchStub, AppErrorStub } from '@/shared/components/common';
 import { AppLoader } from '@/shared/components/ui';
 import IncidentsDashboardList from './IncidentsDashboardList.vue';
 import { useIncidentsStore } from '@/features/incidents';
-import { useIncidentsDashboardStore } from '../store';
+import { useIncidentsDashboardStore } from '../store/index.ts';
 
 const incidentsStore = useIncidentsStore();
 const incidentsDashboardStore = useIncidentsDashboardStore();
