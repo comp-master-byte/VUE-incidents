@@ -16,7 +16,7 @@ const incidentsCreateModalStore = useIncidentsCreateModalStore();
       <p class="app-subtitle">защитой от устаревших ответов API.</p>
     </div>
     <div class="incidents-header__action-buttons">
-      <AppButton @click="incidentsCreateModalStore.handleOpenCreateModal">
+      <AppButton variant="primary" @click="incidentsCreateModalStore.handleOpenCreateModal">
         Завести инцидент
       </AppButton>
       <AppButton @click="incidentsStore.updateIncidentsList">Обновить</AppButton>

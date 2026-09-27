@@ -89,7 +89,7 @@ const onSubmit = handleSubmit(async (values) => {
     updatedAt: new Date().toISOString(),
   };
 
-  await incidentsStore.createNewIncident(newIncident);
+  await incidentsStore.createIncident(newIncident);
   incidentsCreateModalStore.handleCloseCreateModal();
 });
 </script>
@@ -125,7 +125,7 @@ const onSubmit = handleSubmit(async (values) => {
         :options="usersList"
         :error="errors.assignee"
       />
-      <AppButton type="submit">Создать</AppButton>
+      <AppButton type="submit" variant="primary">Создать</AppButton>
     </form>
   </AppModal>
 </template>

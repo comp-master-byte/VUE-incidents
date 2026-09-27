@@ -84,6 +84,20 @@ class IncidentsService {
       return resolve(incident);
     });
   }
+
+  async deleteIncidentAsync(incidentId: string) {
+    return new Promise<IncidentType | undefined>((resolve, reject) => {
+      const incidentsDB: IncidentServerType[] = JSON.parse(
+        localStorage.getItem(INCIDENTS_STORAGE_KEY) as string,
+      );
+
+      const incidentToDelete = incidentsDB.find((incident) => incident.id === incidentId);
+      const updatedIncidentsDB = incidentsDB.filter((incident) => incident.id !== incidentId);
+
+      localStorage.setItem(INCIDENTS_STORAGE_KEY, JSON.stringify(updatedIncidentsDB));
+      return resolve(incidentToDelete);
+    });
+  }
 }
 
 export const incidentsService = new IncidentsService();

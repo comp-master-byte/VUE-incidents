@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppSelect } from '@/shared/components/ui';
+import { AppButton, AppSelect } from '@/shared/components/ui';
 import { useIncidentsStore } from '../store';
 import { PRIORITIES, statusesList } from '@/shared/consts';
 
@@ -54,12 +54,20 @@ const incidentsStore = useIncidentsStore();
 
     <p class="incidents-details__description">{{ incidentsStore.incidentSelected?.description }}</p>
 
-    <AppSelect
-      size="fit-content"
-      label="Статус"
-      :options="statusesList"
-      v-model="incidentsStore.currentIncidentSelectedOption!"
-    />
+    <div class="incidents-details__actions">
+      <AppSelect
+        size="fit-content"
+        label="Статус"
+        :options="statusesList"
+        v-model="incidentsStore.currentIncidentSelectedOption!"
+      />
+      <AppButton
+        variant="danger"
+        @click="incidentsStore.deleteIncident(incidentsStore.incidentSelected!.id)"
+      >
+        Удалить инцидент
+      </AppButton>
+    </div>
   </section>
 </template>
 
@@ -144,6 +152,12 @@ const incidentsStore = useIncidentsStore();
   color: var(--color-text-primary);
   font-size: 15px;
   line-height: 1.5;
+}
+
+.incidents-details__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 @media (max-width: 900px) {

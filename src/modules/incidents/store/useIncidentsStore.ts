@@ -214,10 +214,25 @@ export const useIncidentsStore = defineStore('incidents', () => {
     }
   }
 
-  async function createNewIncident(incident: IncidentType) {
+  async function createIncident(incident: IncidentType) {
     try {
       await incidentsService.createIncidentAsync(incident);
       incidents.value[incident.id] = incident;
+    } catch {}
+  }
+
+  async function deleteIncident(incidentId?: string) {
+    try {
+      if (!incidentId) {
+        return;
+      }
+
+      await incidentsService.deleteIncidentAsync(incidentId);
+      delete incidents.value[incidentId];
+
+      if (selectedIncidentId.value === incidentId) {
+        selectedIncidentId.value = null;
+      }
     } catch {}
   }
 
@@ -235,7 +250,8 @@ export const useIncidentsStore = defineStore('incidents', () => {
     incidentsStatusesOptionsList,
     currentIncidentSelectedOption,
     incidentsError,
-    createNewIncident,
+    createIncident,
+    deleteIncident,
     initIncidentsList,
     updateIncidentsList,
     handleSelectIncident,
