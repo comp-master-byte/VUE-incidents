@@ -23,8 +23,8 @@ function toggleSelectOptionsVisibility() {
   if (!isSelectOptionsVisible.value && rootRef.value) {
     const rect = rootRef.value.getBoundingClientRect();
     const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
-    const spaceBelow = viewportHeight - rect.bottom - 50;
-    const spaceAbove = rect.top - 50;
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
     const listHeight = Math.min(props.options.length * 40 + 16, 280);
 
     openUp.value = spaceBelow < listHeight && spaceAbove > spaceBelow;
