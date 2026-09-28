@@ -10,7 +10,7 @@ type AppSelectProps = {
   error?: string;
 };
 
-defineProps<AppSelectProps>();
+const props = defineProps<AppSelectProps>();
 const emit = defineEmits<{
   'update:modelValue': [value: AppSelectOption];
 }>();
@@ -22,7 +22,12 @@ const openUp = ref(false);
 function toggleSelectOptionsVisibility() {
   if (!isSelectOptionsVisible.value && rootRef.value) {
     const rect = rootRef.value.getBoundingClientRect();
-    openUp.value = window.innerHeight - rect.bottom < 220;
+    const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+    const spaceBelow = viewportHeight - rect.bottom - 50;
+    const spaceAbove = rect.top - 50;
+    const listHeight = Math.min(props.options.length * 40 + 16, 280);
+
+    openUp.value = spaceBelow < listHeight && spaceAbove > spaceBelow;
   }
   isSelectOptionsVisible.value = !isSelectOptionsVisible.value;
 }
@@ -170,6 +175,8 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  max-height: 280px;
+  overflow-y: auto;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   background-color: var(--color-white);
