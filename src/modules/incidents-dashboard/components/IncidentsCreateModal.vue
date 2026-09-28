@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import {
-  AppButton,
-  AppInput,
-  AppModal,
-  AppSelect,
-  type AppSelectOption,
-} from '@/shared/components/ui';
+import { AppButton, AppInput, AppModal, AppSelect } from '@/shared/components/ui';
 import { useIncidentsCreateModalStore } from '../store/useIncidentsCreateModalStore';
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 import { prioritiesList, servicesList, statusesList, usersList } from '@/shared/consts';
 import type {
+  AppSelectOption,
   IncidentCreateType,
   IncidentPriority,
   IncidentStatus,

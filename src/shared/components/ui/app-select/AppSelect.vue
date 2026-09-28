@@ -1,10 +1,7 @@
 <script setup lang="ts">
+import type { AppSelectOption } from '@/shared/domain';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
-export type AppSelectOption = {
-  id: string;
-  label: string;
-};
 type AppSelectProps = {
   label?: string;
   options: AppSelectOption[];

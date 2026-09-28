@@ -1,8 +1,13 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { IncidentPriority, IncidentStatus, IncidentType } from '@/shared/domain';
+import type {
+  AppSelectOption,
+  IncidentPriority,
+  IncidentStatus,
+  IncidentType,
+} from '@/shared/domain';
 import { STATUSES, statusesList } from '@/shared/consts';
-import { getOptionsListFromRecord, type AppSelectOption } from '@/shared/components/ui';
+import { getOptionsListFromRecord } from '@/shared/components/ui';
 import { useIncidentsStore } from '@/features/incidents';
 import { appDates, appStrings } from '@/shared/utils';
 

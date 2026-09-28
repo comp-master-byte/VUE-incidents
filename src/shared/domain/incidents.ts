@@ -1,4 +1,4 @@
-import type { AppSelectOption } from '../components/ui';
+import type { AppSelectOption } from './ui/appSelect';
 
 export type IncidentId = string;
 export type IncidentType = {
