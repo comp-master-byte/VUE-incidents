@@ -92,7 +92,14 @@ watch(
 
 @media screen and (max-width: 768px) {
   .app-modal__content {
-    margin: 0 20px;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    padding-top: 30px;
+  }
+
+  .app-modal__close {
+    top: 10px;
   }
 }
 </style>
