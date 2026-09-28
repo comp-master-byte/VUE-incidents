@@ -38,3 +38,25 @@
 npm install
 npm run dev
 ```
+
+## Структура `src`
+
+```text
+src/
+├── core/                      # App, router, глобальные стили, AppService
+├── features/
+│   └── incidents/             # сервис, storage/mapping, store данных
+├── modules/
+│   ├── incidents-dashboard/   # экран дашборда
+│   └── incidents-analytics/   # экран аналитики
+└── shared/                    # UI-kit, domain, consts, utils
+```
+
+| Слой       | Ответственность                      |
+| ---------- | ------------------------------------ |
+| `core`     | оболочка приложения, роутинг, init   |
+| `features` | бизнес-данные и сервисный слой       |
+| `modules`  | страницы и UI-логика сценариев       |
+| `shared`   | переиспользуемое без бизнес-сценария |
+
+Подробнее: [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md).
