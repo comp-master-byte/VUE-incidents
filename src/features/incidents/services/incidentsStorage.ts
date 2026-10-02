@@ -8,7 +8,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'critical',
     status: 'in-progress',
     updatedAt: '2026-09-13T16:40:00.000Z',
-    assignee: 'Анна Смирнова',
+    assignee: 'Vip Admin',
     description:
       'При создании заказа API оформления отвечает 5xx. Пользователи не могут завершить покупку.',
   },
@@ -30,7 +30,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'critical',
     status: 'in-progress',
     updatedAt: '2026-09-13T14:20:00.000Z',
-    assignee: 'Мария Орлова',
+    assignee: 'Vip Admin',
     description:
       'Личный кабинет недоступен для части пользователей. Страница профиля открывается с ошибкой.',
   },

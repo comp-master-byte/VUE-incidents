@@ -9,6 +9,7 @@ import type {
 import { STATUSES, statusesList } from '@/shared/consts';
 import { getOptionsListFromRecord } from '@/shared/components/ui';
 import { useIncidentsStore } from '@/features/incidents';
+import { useUsersStore } from '@/features/users';
 import { appDates, appStrings } from '@/shared/utils';
 
 const INCIDENTS_STATUSES = {
@@ -32,10 +33,12 @@ const PRIORITY_ORDER: Record<IncidentPriority, number> = {
 
 export const useIncidentsDashboardStore = defineStore('incidents-dashboard', () => {
   const incidentsStore = useIncidentsStore();
+  const usersStore = useUsersStore();
   const incidentsQuery = ref('');
   const selectedIncidentId = ref<string | null>(null);
   const incidentStatusSelected = ref<AppSelectOption>({ id: 'all', label: 'Все статусы' });
   const incidentSortingSelected = ref<AppSelectOption>({ id: 'date', label: 'По обновлению' });
+  const incidentsSelfSelected = ref(false);
 
   const incidentsStatusesOptionsList = getOptionsListFromRecord(INCIDENTS_STATUSES);
   const incidentsSortingOptionsList = getOptionsListFromRecord(INCIDENTS_SORTING);
@@ -54,20 +57,25 @@ export const useIncidentsDashboardStore = defineStore('incidents-dashboard', () 
 
   const incidentsFilteredList = computed<IncidentType[]>(() => {
     const normalizedQuery = appStrings.toSearchKey(incidentsQuery.value);
+    const currentUserName = usersStore.currentUser?.name;
 
-    const filteredListQuery = incidentsStore.incidentsList.filter((incident) =>
+    let filteredList = incidentsStore.incidentsList.filter((incident) =>
       SEARCH_FIELDS.some((field) =>
         appStrings.toSearchKey(incident[field]).includes(normalizedQuery),
       ),
     );
 
-    if (incidentStatusSelected.value.id === 'all') {
-      return filteredListQuery;
+    if (incidentStatusSelected.value.id !== 'all') {
+      filteredList = filteredList.filter(
+        (incident) => incident.status === incidentStatusSelected.value.id,
+      );
     }
 
-    return filteredListQuery.filter(
-      (incident) => incident.status === incidentStatusSelected.value.id,
-    );
+    if (incidentsSelfSelected.value && currentUserName) {
+      filteredList = filteredList.filter((incident) => incident.assignee === currentUserName);
+    }
+
+    return filteredList;
   });
 
   const incidentsFilteredSortedList = computed<IncidentType[]>(() => {
@@ -123,6 +131,7 @@ export const useIncidentsDashboardStore = defineStore('incidents-dashboard', () 
   return {
     incidentsQuery,
     incidentSelected,
+    incidentsSelfSelected,
     incidentStatusSelected,
     incidentSortingSelected,
     incidentsStatusesOptionsList,

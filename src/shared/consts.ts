@@ -26,6 +26,7 @@ export const STATUSES: Record<IncidentStatus, string> = {
 export const statusesList = getOptionsListFromRecord(STATUSES);
 
 export const USERS: Record<string, string> = {
+  'vip-admin': 'Vip Admin',
   'anna-smirnova': 'Анна Смирнова',
   'ivan-kuznetsov': 'Иван Кузнецов',
   'maria-orlova': 'Мария Орлова',

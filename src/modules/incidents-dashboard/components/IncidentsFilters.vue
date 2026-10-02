@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AppInput, AppSelect } from '@/shared/components/ui';
+import { AppCheckbox, AppInput, AppSelect } from '@/shared/components/ui';
 import { useIncidentsDashboardStore } from '../store';
 
 const incidentsDashboardStore = useIncidentsDashboardStore();
@@ -24,56 +24,35 @@ const incidentsDashboardStore = useIncidentsDashboardStore();
       v-model="incidentsDashboardStore.incidentSortingSelected"
       :options="incidentsDashboardStore.incidentsSortingOptionsList"
     />
+    <div class="incidents-filter__self">
+      <AppCheckbox
+        id="incidents-self"
+        label="Мои"
+        v-model="incidentsDashboardStore.incidentsSelfSelected"
+      />
+    </div>
   </section>
 </template>
 <style scoped>
 .incidents-filter__wrapper {
   display: flex;
+  align-items: flex-end;
   column-gap: 8px;
   margin-bottom: 12px;
 }
-.app-input-field {
+
+.incidents-filter__self {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-}
-.app-input-label {
-  width: fit-content;
-  color: #334155;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.2;
-}
-.app-input {
-  width: 100%;
+  align-items: center;
+  flex-shrink: 0;
   height: 44px;
-  padding: 0 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  background-color: var(--color-white);
-  color: var(--color-text-primary);
-  font-family: inherit;
-  font-size: 14px;
-  outline: none;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-.app-input::placeholder {
-  color: #94a3b8;
-}
-.app-input:hover {
-  border-color: #cbd5e1;
-}
-.app-input:focus {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.15);
+  padding: 0 14px;
 }
 
 @media (max-width: 900px) {
   .incidents-filter__wrapper {
     flex-direction: column;
+    align-items: stretch;
     row-gap: 10px;
   }
 
@@ -82,6 +61,11 @@ const incidentsDashboardStore = useIncidentsDashboardStore();
   .incidents-filter__wrapper :deep(.size-m),
   .incidents-filter__wrapper :deep(.size-l) {
     width: 100%;
+  }
+
+  .incidents-filter__self {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
 </style>
