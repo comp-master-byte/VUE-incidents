@@ -8,7 +8,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'critical',
     status: 'in-progress',
     updatedAt: '2026-09-13T16:40:00.000Z',
-    assignee: 'Vip Admin',
+    assigneeId: 'vip-admin',
     description:
       'При создании заказа API оформления отвечает 5xx. Пользователи не могут завершить покупку.',
   },
@@ -19,7 +19,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'high',
     status: 'investigating',
     updatedAt: '2026-09-13T15:55:00.000Z',
-    assignee: 'Иван Кузнецов',
+    assigneeId: 'ivan-kuznetsov',
     description:
       'Часть платежей по картам завершается по таймауту. Клиенты видят ошибку и повторяют оплату.',
   },
@@ -30,7 +30,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'critical',
     status: 'in-progress',
     updatedAt: '2026-09-13T14:20:00.000Z',
-    assignee: 'Vip Admin',
+    assigneeId: 'vip-admin',
     description:
       'Личный кабинет недоступен для части пользователей. Страница профиля открывается с ошибкой.',
   },
@@ -41,7 +41,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'medium',
     status: 'monitoring',
     updatedAt: '2026-09-13T13:05:00.000Z',
-    assignee: 'Пётр Волков',
+    assigneeId: 'petr-volkov',
     description: 'Push-уведомления доставляются с задержкой до нескольких минут после события.',
   },
   {
@@ -51,7 +51,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'high',
     status: 'in-progress',
     updatedAt: '2026-09-13T12:42:00.000Z',
-    assignee: 'Елена Новикова',
+    assigneeId: 'elena-novikova',
     description:
       'При входе через SSO пользователи получают ошибку авторизации и не могут попасть в систему.',
   },
@@ -62,7 +62,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'medium',
     status: 'investigating',
     updatedAt: '2026-09-13T11:18:00.000Z',
-    assignee: 'Иван Кузнецов',
+    assigneeId: 'ivan-kuznetsov',
     description:
       'Операторы видят старые версии полисов в выдаче, пока вручную не обновят страницу.',
   },
@@ -73,7 +73,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'high',
     status: 'in-progress',
     updatedAt: '2026-09-13T10:30:00.000Z',
-    assignee: 'Сергей Морозов',
+    assigneeId: 'sergey-morozov',
     description:
       'Остатки товаров на складе не синхронизируются. В каталоге отображаются неактуальные данные.',
   },
@@ -84,7 +84,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'low',
     status: 'new',
     updatedAt: '2026-09-12T19:10:00.000Z',
-    assignee: 'Ольга Белова',
+    assigneeId: 'olga-belova',
     description: 'Для части промокодов итоговая сумма в корзине считается неверно.',
   },
   {
@@ -94,7 +94,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'medium',
     status: 'monitoring',
     updatedAt: '2026-09-12T17:45:00.000Z',
-    assignee: 'Дмитрий Соколов',
+    assigneeId: 'dmitry-sokolov',
     description: 'Статика с CDN периодически отдаётся медленно или с ошибкой в отдельных регионах.',
   },
   {
@@ -104,7 +104,7 @@ export const INCIDENTS: IncidentServerType[] = [
     priority: 'low',
     status: 'solved',
     updatedAt: '2026-09-12T08:05:00.000Z',
-    assignee: 'Алексей Павлов',
+    assigneeId: 'alexey-pavlov',
     description: 'Часть сервисов не отправляла метрики в систему мониторинга из-за ошибки записи.',
   },
 ];

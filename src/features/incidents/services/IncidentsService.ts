@@ -3,6 +3,7 @@ import type {
   IncidentsDict,
   IncidentStatus,
   IncidentType,
+  UserId,
 } from '@/shared/domain';
 import { incidentsResponseMapping } from './incidentsApiMapping';
 import { INCIDENTS_STORAGE_KEY } from '@/shared/storageKeys';
@@ -15,7 +16,7 @@ export type IncidentServerType = {
   priority: IncidentPriority;
   status: IncidentStatus;
   updatedAt: string;
-  assignee: string;
+  assigneeId: UserId;
   description: string;
 };
 

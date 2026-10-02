@@ -1,4 +1,5 @@
 import type { AppSelectOption } from './ui/appSelect';
+import type { UserId } from './users';
 
 export type IncidentId = string;
 export type IncidentType = {
@@ -8,7 +9,7 @@ export type IncidentType = {
   status: IncidentStatus;
   priority: IncidentPriority;
   updatedAt: string;
-  assignee: string;
+  assigneeId: UserId;
   description: string;
 };
 export type IncidentCreateType = {

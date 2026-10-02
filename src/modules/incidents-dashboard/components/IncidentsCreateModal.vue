@@ -80,7 +80,7 @@ const onSubmit = handleSubmit(async (values) => {
     service: values.service!.label,
     priority: values.priority!.id as IncidentPriority,
     status: values.status!.id as IncidentStatus,
-    assignee: values.assignee!.label,
+    assigneeId: values.assignee!.id,
     updatedAt: new Date().toISOString(),
   };
 

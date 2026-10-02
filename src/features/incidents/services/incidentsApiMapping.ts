@@ -18,7 +18,7 @@ export function incidentsResponseMapping(response: IncidentServerType[]): Incide
       priority: incident.priority,
       status: incident.status,
       updatedAt: incident.updatedAt,
-      assignee: incident.assignee,
+      assigneeId: incident.assigneeId,
       description: incident.description,
     };
   }

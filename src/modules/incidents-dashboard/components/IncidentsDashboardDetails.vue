@@ -1,12 +1,21 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { AppButton, AppSelect } from '@/shared/components/ui';
 import { useIncidentsDashboardStore } from '../store';
 import { PRIORITIES, statusesList } from '@/shared/consts';
 import { appDates } from '@/shared/utils';
 import { useIncidentsStore } from '@/features/incidents';
+import { useUsersStore } from '@/features/users';
 
 const incidentsDashboardStore = useIncidentsDashboardStore();
 const incidentsStore = useIncidentsStore();
+const usersStore = useUsersStore();
+
+const assigneeName = computed(() => {
+  const assigneeId = incidentsDashboardStore.incidentSelected?.assigneeId;
+  if (!assigneeId) return '';
+  return usersStore.users[assigneeId]?.name || assigneeId;
+});
 </script>
 
 <template>
@@ -47,9 +56,7 @@ const incidentsStore = useIncidentsStore();
 
       <div class="incidents-details__field">
         <span class="incidents-details__label">Ответственный</span>
-        <strong class="incidents-details__value">{{
-          incidentsDashboardStore.incidentSelected?.assignee
-        }}</strong>
+        <strong class="incidents-details__value">{{ assigneeName }}</strong>
       </div>
 
       <div class="incidents-details__field">

@@ -57,7 +57,7 @@ export const useIncidentsDashboardStore = defineStore('incidents-dashboard', () 
 
   const incidentsFilteredList = computed<IncidentType[]>(() => {
     const normalizedQuery = appStrings.toSearchKey(incidentsQuery.value);
-    const currentUserName = usersStore.currentUser?.name;
+    const currentUserId = usersStore.currentUser?.id;
 
     let filteredList = incidentsStore.incidentsList.filter((incident) =>
       SEARCH_FIELDS.some((field) =>
@@ -71,8 +71,8 @@ export const useIncidentsDashboardStore = defineStore('incidents-dashboard', () 
       );
     }
 
-    if (incidentsSelfSelected.value && currentUserName) {
-      filteredList = filteredList.filter((incident) => incident.assignee === currentUserName);
+    if (incidentsSelfSelected.value && currentUserId) {
+      filteredList = filteredList.filter((incident) => incident.assigneeId === currentUserId);
     }
 
     return filteredList;
