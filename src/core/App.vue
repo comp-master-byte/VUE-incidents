@@ -4,9 +4,13 @@ import { appService } from './AppService';
 import './css/global.css';
 import { RouterView } from 'vue-router';
 import { AppHeader } from '@/shared/components/main';
+import { useUsersStore } from '@/features/users';
+
+const usersStore = useUsersStore();
 
 onMounted(() => {
   appService.initApp();
+  usersStore.getAllUsers();
 });
 </script>
 <template>

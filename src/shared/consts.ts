@@ -1,6 +1,8 @@
 import { getOptionsListFromRecord } from './components/ui';
 import type { IncidentPriority, IncidentStatus } from './domain';
 
+export const DEFAULT_USER_ID = 'vip-admin';
+
 export type AppTagColors = {
   backgroundColor: string;
   textColor: string;
